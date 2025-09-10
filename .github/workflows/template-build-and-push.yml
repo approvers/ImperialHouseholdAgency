@@ -65,13 +65,19 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Convert image name to lowercase
+        id: lowercase
+        run: |
+          IMAGE_NAME_LOWER=$(echo "${{ inputs.image_name_base }}${{ inputs.image_name_suffix }}" | tr '[:upper:]' '[:lower:]')
+          echo "image_name=${IMAGE_NAME_LOWER}" >> $GITHUB_OUTPUT
+
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ inputs.registry }}/${{ inputs.image_name_base }}
+          images: ${{ inputs.registry }}/${{ steps.lowercase.outputs.image_name }}
           tags: |
-            type=sha,format=long,suffix=${{ inputs.image_name_suffix }}
+            type=sha,format=long,suffix=-${{ inputs.build_target }}
 
       - name: Build and push Docker image
         id: build-and-push
