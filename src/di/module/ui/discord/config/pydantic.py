@@ -1,14 +1,15 @@
-from injector import SingletonScope
-
 from config import ImperialHouseholdAgencyConfig
 from src.di.builder import ModuleBase, BindEntry
-from src.domain.config import DomainConfigIF
+
+from injector import SingletonScope
+
+from src.ui.discord.config import DiscordConfigIF
 
 
-class PydanticDomainConfigModule(ModuleBase):
+class PydanticDiscordConfigModule(ModuleBase):
     _BINDINGS = (
         BindEntry(
-            interface=DomainConfigIF,
+            interface=DiscordConfigIF,
             to=ImperialHouseholdAgencyConfig,
             scope=SingletonScope,
         ),
