@@ -11,7 +11,7 @@ env:
   BUILD_TARGET: "developer"
   IMAGE_NAME_BASE: ${{ github.repository }}
   IMAGE_NAME_SUFFIX: "-developer"
-  IMAGE_NAME_FULL: ${{ github.repository }}${{ env.IMAGE_NAME_SUFFIX }}
+  IMAGE_NAME_FULL: ${{ github.repository }}-developer
 
 jobs:
   build:
