@@ -5,7 +5,7 @@ from src.common.interface import ConfigIF
 
 # noinspection PyPep8Naming
 class DiscordConfigIF(ConfigIF):
-    @abstractmethod
     @property
+    @abstractmethod
     def DISCORD_TOKEN(self) -> str:
         pass
