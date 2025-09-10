@@ -1,0 +1,10 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/python/Dockerfile
+      target: runner
+    platform: linux/amd64
+    image: imperial-household-agency
+    container_name: app
+    tty: true

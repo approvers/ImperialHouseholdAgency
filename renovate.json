@@ -1,0 +1,96 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "schedule": [
+    "before 5am on every day"
+  ],
+  "timezone": "Asia/Tokyo",
+  "prConcurrentLimit": 30,
+  "prHourlyLimit": 10,
+  "semanticCommits": "enabled",
+  "commitMessagePrefix": "build:",
+  "labels": [
+    "dependencies"
+  ],
+  "assignees": [
+    "@Colk-tech"
+  ],
+  "reviewers": [
+    "@Colk-tech"
+  ],
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": [
+      "dependencies",
+      "security"
+    ],
+    "schedule": [
+      "at any time"
+    ]
+  },
+  "packageRules": [
+    {
+      "matchPackageNames": [
+        "*"
+      ],
+      "vulnerabilityAlerts": {
+        "enabled": true
+      },
+      "prPriority": 10,
+      "schedule": [
+        "at any time"
+      ],
+      "labels": [
+        "dependencies",
+        "security"
+      ]
+    },
+    {
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "matchDepTypes": [
+        "dependencies"
+      ],
+      "groupName": "Minor and Patch Updates",
+      "automerge": true,
+      "automergeType": "pr",
+      "prPriority": 1
+    },
+    {
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "automerge": false,
+      "labels": [
+        "dependencies"
+      ],
+      "prPriority": 2
+    },
+    {
+      "matchDepTypes": [
+        "devDependencies"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "major"
+      ],
+      "automerge": false,
+      "labels": [
+        "dependencies"
+      ],
+      "prPriority": 0
+    }
+  ],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": [
+      "at any time"
+    ]
+  },
+  "dependencyDashboard": true
+}

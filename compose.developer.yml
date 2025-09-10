@@ -1,0 +1,23 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/python/Dockerfile
+      target: developer
+    platform: linux/amd64
+    image: imperial-household-agency
+    container_name: app
+    # TODO: Change here to start a bot process!
+    command: ["sleep", "infinity"]
+    tty: true
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /opt/app
+          ignore:
+            - .venv/
+        - action: rebuild
+          path: ./pyproject.toml
+        - action: rebuild
+          path: ./uv.lock

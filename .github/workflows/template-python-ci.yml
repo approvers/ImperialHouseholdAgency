@@ -1,0 +1,78 @@
+---
+name: Python CI [template]
+
+"on":
+  workflow_call:
+    inputs:
+      registry:
+        description: 'The container registry to pull from'
+        type: string
+        required: false
+        default: 'ghcr.io'
+
+      image_name_full:
+        description: 'The name of the docker image'
+        type: string
+        required: false
+
+jobs:
+  python-ci:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Log in to the GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ inputs.registry }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Define image to test
+        id: image
+        run: |
+          # Automatically generate the tag from the Git commit SHA.
+          COMMIT_SHA=${{ github.sha }}
+          TAG_SUFFIX="developer"  # Define a reusable tag suffix
+          IMAGE_TAG="sha-${COMMIT_SHA}-${TAG_SUFFIX}"
+
+          # Use inputs to construct the full image name
+          FULL_IMAGE_NAME=\
+            "${{ inputs.registry }}/${{ inputs.image_name_full }}:${IMAGE_TAG}"
+
+          # Set the full image name for subsequent steps
+          echo "IMAGE_TO_TEST=${FULL_IMAGE_NAME}" >> $GITHUB_ENV
+          echo "Generated image to test: ${FULL_IMAGE_NAME}"
+
+      - name: Pull test image
+        run: docker pull ${{ env.IMAGE_TO_TEST }}
+
+      - name: Run mypy type checking in container
+        run: |
+          docker run --rm \
+            -v "${{ github.workspace }}:/app" \
+            -w /app \
+            ${{ env.IMAGE_TO_TEST }} \
+            uv run mypy ./ --strict
+
+      - name: Run ruff linter in container
+        run: |
+          docker run --rm \
+            -v "${{ github.workspace }}:/app" \
+            -w /app \
+            ${{ env.IMAGE_TO_TEST }} \
+            uv run ruff check
+
+      - name: Run ruff formatter check in container
+        run: |
+          docker run --rm \
+            -v "${{ github.workspace }}:/app" \
+            -w /app \
+            ${{ env.IMAGE_TO_TEST }} \
+            uv run ruff format --check

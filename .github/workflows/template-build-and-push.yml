@@ -1,0 +1,87 @@
+---
+name: Docker Image Build and Push [template]
+
+"on":
+  workflow_call:
+    inputs:
+      registry:
+        description: "The container registry to push to"
+        required: false
+        type: string
+        default: "ghcr.io"
+
+      build_target:
+        description: >
+          Target stage to build
+        type: string
+        required: false
+        default: "developer"
+
+      image_name_base:
+        description: >
+          The name of the docker image
+        type: string
+        required: true
+
+      image_name_suffix:
+        description: >
+          The suffix for name of the docker image
+        type: string
+        required: false
+        default: ""
+
+      tags:
+        description: >
+          Additional comma-separated tags to apply to the image
+          (e.g., "latest,v1.0.0")
+        type: string
+        required: false
+        default: ''
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    outputs:
+      image_tag: ${{ steps.meta.outputs.tags }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Set up Docker Builds
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to the Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ inputs.registry }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ inputs.registry }}/${{ inputs.image_name_base }}
+          tags: |
+            type=sha,format=long,suffix=${{ inputs.image_name_suffix }}
+
+      - name: Build and push Docker image
+        id: build-and-push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./docker/python/Dockerfile
+          push: true
+          target: ${{ inputs.build_target }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
