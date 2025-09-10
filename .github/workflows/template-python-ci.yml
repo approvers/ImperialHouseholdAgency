@@ -10,7 +10,7 @@ name: Python CI [template]
         required: false
         default: 'ghcr.io'
 
-      image_name_full:
+      image_name_base:
         description: 'The name of the docker image'
         type: string
         required: true
@@ -43,7 +43,7 @@ jobs:
           IMAGE_TAG="sha-${COMMIT_SHA}-${TAG_SUFFIX}"
 
           # Use inputs to construct the full image name
-          IMAGE_NAME_LOWER=$(echo "${{ inputs.image_name_full }}" | tr '[:upper:]' '[:lower:]')
+          IMAGE_NAME_LOWER=$(echo "${{ inputs.image_name_base }}" | tr '[:upper:]' '[:lower:]')
           FULL_IMAGE_NAME="${{ inputs.registry }}/${IMAGE_NAME_LOWER}:${IMAGE_TAG}"
 
           # Set the full image name for subsequent steps
