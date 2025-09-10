@@ -68,7 +68,7 @@ jobs:
       - name: Convert image name to lowercase
         id: lowercase
         run: |
-          IMAGE_NAME_LOWER=$(echo "${{ inputs.image_name_base }}${{ inputs.image_name_suffix }}" | tr '[:upper:]' '[:lower:]')
+          IMAGE_NAME_LOWER=$(echo "${{ inputs.image_name_base }}" | tr '[:upper:]' '[:lower:]')
           echo "image_name=${IMAGE_NAME_LOWER}" >> $GITHUB_OUTPUT
 
       - name: Extract metadata (tags, labels) for Docker
@@ -77,7 +77,7 @@ jobs:
         with:
           images: ${{ inputs.registry }}/${{ steps.lowercase.outputs.image_name }}
           tags: |
-            type=sha,format=long,suffix=-${{ inputs.build_target }}
+            type=sha,format=long,suffix=${{ inputs.image_name_suffix }}
 
       - name: Build and push Docker image
         id: build-and-push
