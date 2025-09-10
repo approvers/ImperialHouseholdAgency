@@ -6,13 +6,14 @@ name: Python CI [template]
     inputs:
       registry:
         description: 'The container registry to pull from'
-        required: false
         type: string
+        required: false
         default: 'ghcr.io'
-      image_name:
+
+      image_name_full:
         description: 'The name of the docker image'
-        required: false
         type: string
+        required: false
 
 jobs:
   python-ci:
@@ -33,7 +34,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Define Image to Test
+      - name: Define image to test
         id: image
         run: |
           # Automatically generate the tag from the Git commit SHA.
@@ -42,7 +43,7 @@ jobs:
           IMAGE_TAG="sha-${COMMIT_SHA}-${TAG_SUFFIX}"
 
           # Use inputs to construct the full image name
-          FULL_IMAGE_NAME="${{ inputs.registry }}/${{ inputs.image_name }}:${IMAGE_TAG}"
+          FULL_IMAGE_NAME="${{ inputs.registry }}/${{ inputs.image_name_full }}:${IMAGE_TAG}"
 
           # Set the full image name as an environment variable for subsequent steps
           echo "IMAGE_TO_TEST=${FULL_IMAGE_NAME}" >> $GITHUB_ENV
@@ -51,7 +52,7 @@ jobs:
       - name: Pull test image
         run: docker pull ${{ env.IMAGE_TO_TEST }}
 
-      - name: Run mypy Type Checking in Container
+      - name: Run mypy type checking in container
         run: |
           docker run --rm \
             -v "${{ github.workspace }}:/app" \
@@ -59,7 +60,7 @@ jobs:
             ${{ env.IMAGE_TO_TEST }} \
             uv run mypy ./ --strict
 
-      - name: Run Ruff Linter in Container
+      - name: Run ruff linter in container
         run: |
           docker run --rm \
             -v "${{ github.workspace }}:/app" \
@@ -67,7 +68,7 @@ jobs:
             ${{ env.IMAGE_TO_TEST }} \
             uv run ruff check
 
-      - name: Run Ruff Formatter Check in Container
+      - name: Run ruff formatter check in container
         run: |
           docker run --rm \
             -v "${{ github.workspace }}:/app" \
