@@ -6,13 +6,6 @@ name: CI on Push
     branches:
       - '**'
 
-env:
-  REGISTRY: ghcr.io
-  BUILD_TARGET: "developer"
-  IMAGE_NAME_BASE: ${{ github.repository }}
-  IMAGE_NAME_SUFFIX: "-developer"
-  IMAGE_NAME_FULL: ${{ github.repository }}-developer
-
 jobs:
   build:
     name: Build Debug Image
@@ -22,9 +15,9 @@ jobs:
 
     uses: ./.github/workflows/template-build-and-push.yml
     with:
-      build_target: ${{ env.BUILD_TARGET }}
-      image_name_base: ${{ env.IMAGE_NAME_BASE }}
-      image_name_suffix: ${{ env.IMAGE_NAME_SUFFIX }}
+      build_target: "developer"
+      image_name_base: ${{ github.repository }}
+      image_name_suffix: "-developer"
       tags: ''
 
   lint:
@@ -36,4 +29,4 @@ jobs:
 
     uses: ./.github/workflows/template-python-ci.yml
     with:
-      image_name_full: ${{ env.IMAGE_NAME_FULL }}
+      image_name_full: ${{ github.repository }}-developer
