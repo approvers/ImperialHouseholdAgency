@@ -4,38 +4,39 @@ name: Docker Image Build and Push [template]
 "on":
   workflow_call:
     inputs:
-      image_name_suffix:
-        description: >
-          Suffix for built images
-          (default: -developer)
+      registry:
+        description: "The container registry to push to"
         required: false
         type: string
-        default: -developer
+        default: "ghcr.io"
+
       build_target:
         description: >
-          Target to build
-          (default: developer)
-        required: false
+          Target stage to build
         type: string
-        default: developer
+        required: false
+        default: "developer"
+
+      image_name_base:
+        description: >
+          The name of the docker image
+        type: string
+        required: true
+
+      image_name_suffix:
+        description: >
+          The suffix for name of the docker image
+        type: string
+        required: false
+        default: ""
+
       tags:
         description: >
           Additional comma-separated tags to apply to the image
           (e.g., "latest,v1.0.0")
-        required: false
         type: string
+        required: false
         default: ''
-      registry:
-        description: 'The container registry to push to'
-        required: false
-        type: string
-        default: 'ghcr.io'
-      image_name:
-        description: >
-          The name of the docker image. This must be provided by the caller
-          of the workflow.
-        required: true
-        type: string
 
 jobs:
   build-and-push:
@@ -68,7 +69,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ inputs.registry }}/${{ inputs.image_name }}
+          images: ${{ inputs.registry }}/${{ inputs.image_name_base }}
           tags: |
             type=sha,format=long,suffix=${{ inputs.image_name_suffix }}
 
