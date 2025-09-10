@@ -5,7 +5,8 @@ from src.domain.config import DomainConfigIF
 from src.ui.discord.config import DiscordConfigIF
 
 
-class ImperialHouseholdAgencyConfig(DomainConfigIF, DiscordConfigIF, BaseSettings):
+class ImperialHouseholdAgencyConfig(BaseSettings, DomainConfigIF, DiscordConfigIF):
     DISCORD_TOKEN: str = Field(
         description="Discord bot token",
+        kw_only=True,
     )
