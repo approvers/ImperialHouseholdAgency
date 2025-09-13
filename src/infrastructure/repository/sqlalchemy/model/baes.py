@@ -14,7 +14,7 @@ class Base(DeclarativeBase):
 
 
 class ULIDMixin:
-    id: Mapped[ULID] = mapped_column(
+    record_id: Mapped[ULID] = mapped_column(
         ULIDColumn(), primary_key=True, default_factory=generate_ulid
     )
 
