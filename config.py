@@ -55,3 +55,16 @@ class ProductionConfig(BaseConfig):
     )
 
     environment: EnvironmentEnum = EnvironmentEnum.PRODUCTION
+
+
+# noinspection PyArgumentList
+def get_config(environment: EnvironmentEnum) -> BaseConfig:
+    match environment:
+        case EnvironmentEnum.TEST:
+            return TestConfig()
+
+        case EnvironmentEnum.DEVELOPMENT:
+            return DevelopConfig()
+
+        case EnvironmentEnum.PRODUCTION:
+            return ProductionConfig()
