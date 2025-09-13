@@ -28,4 +28,4 @@ class User(ULIDMixin, CreatedAtMixin, UpdatedAtMixin, Base):
     )
     user_id: Mapped[str] = mapped_column(String(), nullable=False)
 
-    messenger: Mapped["Messenger"] = relationship("Messenger")
+    messenger: Mapped["Messenger"] = relationship("Messenger", back_populates="users")
