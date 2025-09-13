@@ -67,7 +67,7 @@ jobs:
             -v "${{ github.workspace }}:/app" \
             -w /app \
             ${{ env.IMAGE_TO_TEST }} \
-            uv run ruff check --exclude ./migration
+            uv run ruff check
 
       - name: Run ruff formatter check in container
         run: |
@@ -75,4 +75,4 @@ jobs:
             -v "${{ github.workspace }}:/app" \
             -w /app \
             ${{ env.IMAGE_TO_TEST }} \
-            uv run ruff format --check --exclude ./migration
+            uv run ruff format
