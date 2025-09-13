@@ -18,6 +18,8 @@ if TYPE_CHECKING:
 class Messenger(ULIDMixin, CreatedAtMixin, UpdatedAtMixin, Base):
     __tablename__ = "messenger"
 
+    # Real columns
     name: Mapped[str] = mapped_column(String(), nullable=False)
 
+    # Back populates
     users: Mapped[list["User"]] = relationship("User", back_populates="messenger")
