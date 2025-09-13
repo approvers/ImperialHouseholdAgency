@@ -25,7 +25,7 @@ class BaseConfig(DomainConfigIF, SQLAlchemyConfigIF, DiscordConfigIF, BaseSettin
 
     @property
     def DATABASE_URL(self) -> str:
-        return self.environment.name
+        return self.database_url
 
     # Discord
     discord_token: str = Field(alias="DISCORD_TOKEN")
