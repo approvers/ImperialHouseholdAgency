@@ -30,3 +30,6 @@ dev = [
 [tool.mypy]
 plugins = ["pydantic.mypy"]
 strict = true
+exclude = [
+  "migration/"
+]
