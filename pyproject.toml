@@ -18,6 +18,7 @@ dependencies = [
 [dependency-groups]
 dev = [
     "mypy>=1.17.1",
+    "pip-licenses>=5.0.0",
     "pytest>=8.4.2",
     "pytest-asyncio>=1.1.0",
     "pytest-cov>=7.0.0",
