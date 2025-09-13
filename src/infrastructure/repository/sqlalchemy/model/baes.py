@@ -15,17 +15,17 @@ class Base(DeclarativeBase):
 
 class ULIDMixin:
     record_id: Mapped[ULID] = mapped_column(
-        ULIDColumn(), primary_key=True, default_factory=generate_ulid
+        ULIDColumn(), primary_key=True, default=generate_ulid
     )
 
 
 class CreatedAtMixin:
     created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), nullable=False, default_factory=utcnow
+        DateTime(timezone=True), nullable=False, default=utcnow
     )
 
 
 class UpdatedAtMixin:
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), nullable=False, default_factory=utcnow
+        DateTime(timezone=True), nullable=False, default=utcnow
     )

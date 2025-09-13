@@ -24,18 +24,18 @@ if TYPE_CHECKING:
 
 class User(ULIDMixin, CreatedAtMixin, UpdatedAtMixin, Base):
     __tablename__ = "user"
-    __table_args__ = (UniqueConstraint("messenger_id", "user_id"),)
+    __table_args__ = (UniqueConstraint("messenger_record_id", "user_id"),)
 
-    messenger_id: Mapped[ULID] = mapped_column(
+    messenger_record_id: Mapped[ULID] = mapped_column(
         ULIDColumn(),
-        ForeignKey("messenger.id", ondelete="CASCADE", onupdate="CASCADE"),
+        ForeignKey("messenger.record_id", ondelete="CASCADE", onupdate="CASCADE"),
         nullable=False,
     )
     user_id: Mapped[str] = mapped_column(String(), nullable=False)
 
     # Forward populates
     messenger: Mapped["Messenger"] = relationship(
-        "Messenger", back_populates="users", foreign_keys=[messenger_id]
+        "Messenger", back_populates="users", foreign_keys=[messenger_record_id]
     )
 
     # Back populates
