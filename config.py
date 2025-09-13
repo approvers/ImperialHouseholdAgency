@@ -1,3 +1,5 @@
+import os
+
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -68,3 +70,14 @@ def get_config(environment: EnvironmentEnum) -> BaseConfig:
 
         case EnvironmentEnum.PRODUCTION:
             return ProductionConfig()
+
+
+def get_config_for_current_env() -> BaseConfig:
+    # noinspection SpellCheckingInspection
+    envvar = os.getenv("ENVIRONMENT")
+    env: EnvironmentEnum = EnvironmentEnum.TEST
+
+    if envvar is not None:
+        env = EnvironmentEnum(envvar)
+
+    return get_config(env)
