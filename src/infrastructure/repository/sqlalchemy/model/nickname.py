@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 from sqlalchemy import String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from src.infrastructure.repository.sqlalchemy.model.baes import (
+from src.infrastructure.repository.sqlalchemy.model.base import (
     Base,
     ULIDMixin,
     CreatedAtMixin,

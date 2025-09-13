@@ -4,7 +4,7 @@ from sqlalchemy import ForeignKey, String, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from ulid import ULID
 
-from src.infrastructure.repository.sqlalchemy.model.baes import (
+from src.infrastructure.repository.sqlalchemy.model.base import (
     Base,
     ULIDMixin,
     CreatedAtMixin,

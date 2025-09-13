@@ -5,7 +5,11 @@ from src.di.container import DIContainer
 from src.infrastructure.repository.sqlalchemy.config import SQLAlchemyConfigIF
 from src.ui.discord.config import DiscordConfigIF
 
-SHOULD_BE_ABLE_TO_GET: list[type] = [DomainConfigIF, SQLAlchemyConfigIF, DiscordConfigIF]
+SHOULD_BE_ABLE_TO_GET: list[type] = [
+    DomainConfigIF,
+    SQLAlchemyConfigIF,
+    DiscordConfigIF,
+]
 
 
 def test_can_get_concreate_class(
