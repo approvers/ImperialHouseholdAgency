@@ -10,7 +10,7 @@ class PydanticDiscordConfigModule(ModuleBase):
     _BINDINGS = (
         BindEntry(
             interface=DiscordConfigIF,
-            to=type(get_config_for_current_env()),
+            to=get_config_for_current_env(),
             scope=SingletonScope,
         ),
     )

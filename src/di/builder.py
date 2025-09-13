@@ -16,7 +16,7 @@ InterfaceT = TypeVar("InterfaceT", bound="ABC")
 @dataclasses.dataclass
 class BindEntry(Generic[InterfaceT]):
     interface: type[InterfaceT]
-    to: type[InterfaceT]
+    to: type[InterfaceT] | InterfaceT
     scope: "Union[None, type['Scope'], 'ScopeDecorator']" = None
 
 

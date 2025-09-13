@@ -9,7 +9,7 @@ class PydanticDomainConfigModule(ModuleBase):
     _BINDINGS = (
         BindEntry(
             interface=DomainConfigIF,
-            to=type(get_config_for_current_env()),
+            to=get_config_for_current_env(),
             scope=SingletonScope,
         ),
     )
