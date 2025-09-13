@@ -44,7 +44,7 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    url = DIContainer.get(SQLAlchemyConfigIF).uri  # type: ignore[type-abstract]
+    url = DIContainer.get(SQLAlchemyConfigIF).DATABASE_URL  # type: ignore[type-abstract]
     context.configure(
         url=url,
         target_metadata=target_metadata,

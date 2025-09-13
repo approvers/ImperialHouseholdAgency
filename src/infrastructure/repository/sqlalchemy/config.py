@@ -4,7 +4,8 @@ from src.common.interface import ConfigIF
 
 
 class SQLAlchemyConfigIF(ConfigIF):
+    # noinspection PyPep8Naming
     @property
     @abstractmethod
-    def uri(self) -> str:
+    def DATABASE_URL(self) -> str:
         pass
