@@ -16,6 +16,11 @@ if TYPE_CHECKING:
     # noinspection PyUnusedImports
     from src.infrastructure.repository.sqlalchemy.model.messenger import Messenger
 
+    # noinspection PyUnusedImports
+    from src.infrastructure.repository.sqlalchemy.model.nickname import (
+        NicknameChangelog,
+    )
+
 
 class User(ULIDMixin, CreatedAtMixin, UpdatedAtMixin, Base):
     __tablename__ = "user"
@@ -28,4 +33,13 @@ class User(ULIDMixin, CreatedAtMixin, UpdatedAtMixin, Base):
     )
     user_id: Mapped[str] = mapped_column(String(), nullable=False)
 
-    messenger: Mapped["Messenger"] = relationship("Messenger", back_populates="users")
+    # Forward populates
+    messenger: Mapped["Messenger"] = relationship(
+        "Messenger", back_populates="users", foreign_keys=[messenger_id]
+    )
+
+    # Back populates
+    nickname_changelogs: Mapped[list["NicknameChangelog"]] = relationship(
+        "NicknameChangelog",
+        back_populates="user",
+    )
