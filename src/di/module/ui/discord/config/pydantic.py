@@ -1,14 +1,15 @@
-from injector import SingletonScope
-
 from config import get_config_for_current_env
 from src.di.builder import ModuleBase, BindEntry
-from src.domain.config import DomainConfigIF
+
+from injector import SingletonScope
+
+from src.ui.discord.config import DiscordConfigIF
 
 
-class PydanticDomainConfigModule(ModuleBase):
+class PydanticDiscordConfigModule(ModuleBase):
     _BINDINGS = (
         BindEntry(
-            interface=DomainConfigIF,
+            interface=DiscordConfigIF,
             to=get_config_for_current_env(),
             scope=SingletonScope,
         ),

@@ -8,3 +8,7 @@ services:
     image: imperial-household-agency
     container_name: app
     tty: true
+    env_file:
+      - "./env/local.env"
+    volumes:
+      - "./env/local.env:/opt/app/env/local.env"
