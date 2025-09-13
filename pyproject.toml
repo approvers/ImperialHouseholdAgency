@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "alembic>=1.16.5",
+    "asyncpg>=0.30.0",
     "discord-py>=2.6.3",
     "injector>=0.22.0",
     "pydantic>=2.11.7",
