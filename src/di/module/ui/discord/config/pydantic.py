@@ -1,4 +1,4 @@
-from config import ImperialHouseholdAgencyConfig
+from config import get_config_for_current_env
 from src.di.builder import ModuleBase, BindEntry
 
 from injector import SingletonScope
@@ -10,7 +10,7 @@ class PydanticDiscordConfigModule(ModuleBase):
     _BINDINGS = (
         BindEntry(
             interface=DiscordConfigIF,
-            to=ImperialHouseholdAgencyConfig,
+            to=type(get_config_for_current_env()),
             scope=SingletonScope,
         ),
     )
