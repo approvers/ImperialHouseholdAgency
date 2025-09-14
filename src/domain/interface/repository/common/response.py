@@ -29,9 +29,7 @@ class RepositoryResponse[ResponseT: DomainModelBase | Iterable[DomainModelBase] 
     response: ResponseT
     is_success: RepositoryResultStatusEnum
     status: RepositoryResponseStatusEnum
-    reason: RepositoryFailedResponseEnum = Field(
-        default=RepositoryFailedResponseEnum.UNKNOWN
-    )
+    reason: RepositoryFailedResponseEnum | None = Field(default=None)
     message: str | None = Field(default=None)
 
     @model_validator(mode="after")
