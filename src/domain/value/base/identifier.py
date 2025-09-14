@@ -1,9 +1,10 @@
 from typing import TypeVar
 from ulid import ULID
 
-from pydantic import RootModel
+from pydantic import RootModel, Field
 
 from src.common.interface import Interface
+from src.util.id import generate_ulid
 
 IDType = TypeVar("IDType")
 
@@ -13,4 +14,4 @@ class IDBase[IDType](Interface):
 
 
 class ULIDBase(IDBase[ULID], RootModel[ULID]):
-    pass
+    root: ULID = Field(default_factory=generate_ulid)
