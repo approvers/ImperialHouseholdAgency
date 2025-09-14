@@ -33,10 +33,10 @@ class RepositoryResponse[ResponseT: DomainModelBase | Iterable[DomainModelBase] 
     message: str | None = Field(default=None)
 
     @model_validator(mode="after")
-    def must_have_message_when_failed(self) -> Self:
-        if self.is_success == RepositoryResultStatusEnum.ERROR and not self.message:
+    def must_have_reason_when_failed(self) -> Self:
+        if self.is_success == RepositoryResultStatusEnum.ERROR and not self.reason:
             raise ValueError(
-                "'self.message' is required when 'self.is_success' is set to 'ERROR'"
+                "'self.reason' is required when 'self.is_success' is set to 'ERROR'"
             )
 
         return self
