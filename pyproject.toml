@@ -41,12 +41,12 @@ exclude = [
 
 [tool.pytest.ini_options]
 addopts = "--cov=. --cov-report=xml --cov-report=term-missing"
-testpaths = ["tests"]
+testpaths = ["test"]
 
 [tool.coverage.run]
 source = ["."]
 omit = [
-    "tests/*",
+    "test/*",
     "migration/*",
     "*/__pycache__/*",
     "*/venv/*",
