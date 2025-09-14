@@ -4,7 +4,7 @@ from src.domain.value.base.identifier import ULIDBase
 from src.domain.value.base.time import CreatedAtBase
 
 
-class NicknameChangelogID(ULIDBase):
+class NicknameChangelogRecordID(ULIDBase):
     pass
 
 
