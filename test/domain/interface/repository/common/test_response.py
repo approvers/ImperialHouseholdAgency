@@ -198,7 +198,7 @@ class TestRepositoryResponse:
         assert len(error.errors()) == 1
         assert error.errors()[0]["type"] == "value_error"
         assert (
-            "'self.reason' is required when 'self.is_success' is set to 'ERROR'"
+            "'self.message' is required when 'self.is_success' is set to 'ERROR'"
             in str(error)
         )
 
@@ -215,7 +215,7 @@ class TestRepositoryResponse:
         assert len(error.errors()) == 1
         assert error.errors()[0]["type"] == "value_error"
         assert (
-            "'self.reason' is required when 'self.is_success' is set to 'ERROR'"
+            "'self.message' is required when 'self.is_success' is set to 'ERROR'"
             in str(error)
         )
 

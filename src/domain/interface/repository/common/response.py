@@ -29,7 +29,7 @@ class RepositoryResponse[ResponseT: DomainModelBase | Iterable[DomainModelBase] 
     response: ResponseT
     is_success: RepositoryResultStatusEnum
     status: RepositoryResponseStatusEnum
-    reason: RepositoryFailedResponseEnum | None = Field(
+    reason: RepositoryFailedResponseEnum = Field(
         default=RepositoryFailedResponseEnum.UNKNOWN
     )
     message: str | None = Field(default=None)
@@ -38,7 +38,7 @@ class RepositoryResponse[ResponseT: DomainModelBase | Iterable[DomainModelBase] 
     def must_have_message_when_failed(self) -> Self:
         if self.is_success == RepositoryResultStatusEnum.ERROR and not self.message:
             raise ValueError(
-                "'self.reason' is required when 'self.is_success' is set to 'ERROR'"
+                "'self.message' is required when 'self.is_success' is set to 'ERROR'"
             )
 
         return self
