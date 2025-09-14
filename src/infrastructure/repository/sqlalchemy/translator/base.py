@@ -2,9 +2,11 @@ from abc import abstractmethod
 from typing import TypeVar
 
 from src.common.interface import Interface
+from src.domain.model.base import DomainModelBase
+from src.infrastructure.repository.sqlalchemy.model.base import Base
 
-DBModelT = TypeVar("DBModelT")
-DomainT = TypeVar("DomainT")
+DomainT = TypeVar("DomainT", bound=DomainModelBase)
+DBModelT = TypeVar("DBModelT", bound=Base)
 
 
 class BaseSQLAlchemyDomainTranslator[DomainT, DBModelT](Interface):
