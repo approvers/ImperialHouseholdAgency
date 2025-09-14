@@ -9,7 +9,7 @@ DomainT = TypeVar("DomainT", bound=DomainModelBase)
 SAModelT = TypeVar("SAModelT", bound=Base)
 
 
-class BaseSADomainTranslator[DomainT, DBModelT](Interface):
+class BaseSADomainTranslator[DomainT, SAModelT](Interface):
     @staticmethod
     @abstractmethod
     def to_domain(db_record: SAModelT) -> DomainT:
