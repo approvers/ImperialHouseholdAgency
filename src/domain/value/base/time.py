@@ -1,6 +1,8 @@
 from datetime import datetime
 
-from pydantic import RootModel
+from pydantic import Field, RootModel
+
+from src.util.datetime import utcnow
 
 
 class DatetimeBase(RootModel[datetime]):
@@ -8,8 +10,8 @@ class DatetimeBase(RootModel[datetime]):
 
 
 class CreatedAtBase(DatetimeBase):
-    pass
+    root: datetime = Field(default_factory=utcnow)
 
 
 class UpdatedAtBase(DatetimeBase):
-    pass
+    root: datetime = Field(default_factory=utcnow)
