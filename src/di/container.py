@@ -6,6 +6,9 @@ from src.di.module.domain.config.pydantic import PydanticDomainConfigModule
 from src.di.module.infrastructure.sqlalchemy.config.pydantic import (
     PydanticSQLAlchemyConfigModule,
 )
+from src.di.module.infrastructure.sentry.config.pydantic import (
+    PydanticSentryConfigModule,
+)
 from src.di.module.ui.discord.config.pydantic import PydanticDiscordConfigModule
 
 # NOTE:
@@ -13,6 +16,7 @@ from src.di.module.ui.discord.config.pydantic import PydanticDiscordConfigModule
 __MODULES: Final[Iterable[Module]] = (
     PydanticDomainConfigModule(),
     PydanticSQLAlchemyConfigModule(),
+    PydanticSentryConfigModule(),
     PydanticDiscordConfigModule(),
 )
 

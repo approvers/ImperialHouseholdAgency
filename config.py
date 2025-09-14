@@ -1,14 +1,17 @@
 import os
 
-from pydantic import Field
+from pydantic import Field, HttpUrl
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from src.domain.config import DomainConfigIF, EnvironmentEnum
 from src.infrastructure.repository.sqlalchemy.config import SQLAlchemyConfigIF
+from src.infrastructure.sentry.config import SentryConfigIF
 from src.ui.discord.config import DiscordConfigIF
 
 
-class BaseConfig(DomainConfigIF, SQLAlchemyConfigIF, DiscordConfigIF, BaseSettings):
+class BaseConfig(
+    DomainConfigIF, SQLAlchemyConfigIF, DiscordConfigIF, SentryConfigIF, BaseSettings
+):
     model_config = SettingsConfigDict(
         env_file="./env/test.env", env_file_encoding="utf-8", extra="allow"
     )
@@ -33,6 +36,26 @@ class BaseConfig(DomainConfigIF, SQLAlchemyConfigIF, DiscordConfigIF, BaseSettin
     @property
     def DISCORD_TOKEN(self) -> str:
         return self.discord_token
+
+    # Sentry
+    sentry_dsn: HttpUrl = Field(
+        default=HttpUrl(
+            "https://18f318e974680126187592b8001394df@o4509562192330752.ingest.de.sentry.io/4510019968499792"
+        ),
+        alias="SENTRY_DSN",
+    )
+    sentry_env: str | None = Field(default=None, alias="SENTRY_ENV")
+
+    @property
+    def SENTRY_DSN(self) -> str:
+        return str(self.sentry_dsn)
+
+    @property
+    def SENTRY_ENV(self) -> str:
+        if self.sentry_env:
+            return self.sentry_env
+
+        return self.ENVIRONMENT.name
 
 
 class TestConfig(BaseConfig):
