@@ -1,11 +1,9 @@
 from enum import StrEnum
-from typing import TypeVar, Self, Iterable
+from typing import Self, Iterable
 
 from pydantic import BaseModel, Field, model_validator
 
 from src.domain.model.base import DomainModelBase
-
-ResponseT = TypeVar("ResponseT", bound=DomainModelBase | Iterable[DomainModelBase])
 
 
 class RepositoryResultStatusEnum(StrEnum):
@@ -25,8 +23,10 @@ class RepositoryFailedResponseEnum(StrEnum):
     UNKNOWN = "UNKNOWN"
 
 
-class RepositoryResponse[ModelT](BaseModel):
-    response: ModelT | None
+class RepositoryResponse[ResponseT: DomainModelBase | Iterable[DomainModelBase]](
+    BaseModel
+):
+    response: ResponseT
     is_success: RepositoryResultStatusEnum
     status: RepositoryResponseStatusEnum
     reason: RepositoryFailedResponseEnum | None = Field(
