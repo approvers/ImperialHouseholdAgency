@@ -6,16 +6,16 @@ from src.domain.model.base import DomainModelBase
 from src.infrastructure.repository.sqlalchemy.model.base import Base
 
 DomainT = TypeVar("DomainT", bound=DomainModelBase)
-DBModelT = TypeVar("DBModelT", bound=Base)
+SAModelT = TypeVar("SAModelT", bound=Base)
 
 
-class BaseSQLAlchemyDomainTranslator[DomainT, DBModelT](Interface):
+class BaseSADomainTranslator[DomainT, DBModelT](Interface):
     @staticmethod
     @abstractmethod
-    def to_domain(db_record: DBModelT) -> DomainT:
+    def to_domain(db_record: SAModelT) -> DomainT:
         pass
 
     @staticmethod
     @abstractmethod
-    def to_db_record(domain_model: DomainT) -> DBModelT:
+    def to_db_record(domain_model: DomainT) -> SAModelT:
         pass

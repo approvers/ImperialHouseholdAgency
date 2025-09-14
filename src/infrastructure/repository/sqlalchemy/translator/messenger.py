@@ -1,17 +1,17 @@
 from src.domain.model.messenger import Messenger as DomainMessenger
 from src.infrastructure.repository.sqlalchemy.model.messenger import (
-    Messenger as DBMessenger,
+    Messenger as SAMessenger,
 )
 from src.infrastructure.repository.sqlalchemy.translator.base import (
-    BaseSQLAlchemyDomainTranslator,
+    BaseSADomainTranslator,
 )
 
 
-class SQLAlchemyMessengerTranslator(
-    BaseSQLAlchemyDomainTranslator[DomainMessenger, DBMessenger]
+class SAMessengerTranslator(
+    BaseSADomainTranslator[DomainMessenger, SAMessenger]
 ):
     @staticmethod
-    def to_domain(db_record: DBMessenger) -> DomainMessenger:
+    def to_domain(db_record: SAMessenger) -> DomainMessenger:
         # noinspection PyTypeChecker,PydanticTypeChecker
         result = DomainMessenger(
             record_id=db_record.record_id,
@@ -23,8 +23,8 @@ class SQLAlchemyMessengerTranslator(
         return result
 
     @staticmethod
-    def to_db_record(domain_model: DomainMessenger) -> DBMessenger:
-        result = DBMessenger()
+    def to_db_record(domain_model: DomainMessenger) -> SAMessenger:
+        result = SAMessenger()
 
         result.record_id = domain_model.record_id.root
         result.created_at = domain_model.created_at.root

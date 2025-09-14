@@ -16,7 +16,7 @@ from src.infrastructure.repository.sqlalchemy.model.messenger import (
     Messenger as SAMessenger,
 )
 from src.infrastructure.repository.sqlalchemy.translator.messenger import (
-    SQLAlchemyMessengerTranslator,
+    SAMessengerTranslator,
 )
 from src.util.id import generate_ulid
 
@@ -65,7 +65,7 @@ def domain_model(
 def test_to_domain(
     db_record: Any, test_ulid: ULID, test_datetime: datetime, test_name: str
 ) -> None:
-    result = SQLAlchemyMessengerTranslator.to_domain(db_record)
+    result = SAMessengerTranslator.to_domain(db_record)
 
     assert isinstance(result, DomainMessenger)
     assert result.record_id == MessengerRecordID(root=test_ulid)
@@ -84,7 +84,7 @@ def test_to_db_record(
 ) -> None:
     load_all_sa_models()
 
-    result = SQLAlchemyMessengerTranslator.to_db_record(domain_model)
+    result = SAMessengerTranslator.to_db_record(domain_model)
 
     assert isinstance(result, SAMessenger)
     assert result.record_id == test_ulid
