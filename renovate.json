@@ -4,7 +4,7 @@
     "config:recommended"
   ],
   "schedule": [
-    "before 5am on every day"
+    "before 5am"
   ],
   "timezone": "Asia/Tokyo",
   "prConcurrentLimit": 30,
