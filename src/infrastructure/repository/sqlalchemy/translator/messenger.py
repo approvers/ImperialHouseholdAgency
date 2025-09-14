@@ -7,9 +7,7 @@ from src.infrastructure.repository.sqlalchemy.translator.base import (
 )
 
 
-class SAMessengerTranslator(
-    BaseSADomainTranslator[DomainMessenger, SAMessenger]
-):
+class SAMessengerTranslator(BaseSADomainTranslator[DomainMessenger, SAMessenger]):
     @staticmethod
     def to_domain(db_record: SAMessenger) -> DomainMessenger:
         # noinspection PyTypeChecker,PydanticTypeChecker
