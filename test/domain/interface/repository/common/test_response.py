@@ -197,7 +197,10 @@ class TestRepositoryResponse:
         error = exc_info.value
         assert len(error.errors()) == 1
         assert error.errors()[0]["type"] == "value_error"
-        assert "'self.reason' is required when 'self.is_success' is set to 'ERROR'" in str(error)
+        assert (
+            "'self.reason' is required when 'self.is_success' is set to 'ERROR'"
+            in str(error)
+        )
 
     def test_validator_error_when_failed_with_empty_message(self) -> None:
         with pytest.raises(ValidationError) as exc_info:
@@ -211,7 +214,10 @@ class TestRepositoryResponse:
         error = exc_info.value
         assert len(error.errors()) == 1
         assert error.errors()[0]["type"] == "value_error"
-        assert "'self.reason' is required when 'self.is_success' is set to 'ERROR'" in str(error)
+        assert (
+            "'self.reason' is required when 'self.is_success' is set to 'ERROR'"
+            in str(error)
+        )
 
     def test_validator_passes_when_success_without_message(self) -> None:
         # This should not raise an exception
