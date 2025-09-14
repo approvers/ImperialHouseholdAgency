@@ -82,7 +82,7 @@ class TestRepositoryResponse:
         assert response.response == model
         assert response.is_success == RepositoryResultStatusEnum.SUCCESS
         assert response.status == RepositoryResponseStatusEnum.CREATED
-        assert response.reason == RepositoryFailedResponseEnum.UNKNOWN
+        assert response.reason is None
         assert response.message is None
 
     def test_successful_read_with_list_response(self) -> None:
@@ -99,7 +99,7 @@ class TestRepositoryResponse:
         assert response.response == models
         assert response.is_success == RepositoryResultStatusEnum.SUCCESS
         assert response.status == RepositoryResponseStatusEnum.READ
-        assert response.reason == RepositoryFailedResponseEnum.UNKNOWN
+        assert response.reason is None
         assert response.message is None
 
     def test_successful_update_with_none_response(self) -> None:
@@ -112,7 +112,7 @@ class TestRepositoryResponse:
         assert response.response is None
         assert response.is_success == RepositoryResultStatusEnum.SUCCESS
         assert response.status == RepositoryResponseStatusEnum.UPDATED
-        assert response.reason == RepositoryFailedResponseEnum.UNKNOWN
+        assert response.reason is None
         assert response.message is None
 
     def test_successful_deletion(self) -> None:
@@ -125,7 +125,7 @@ class TestRepositoryResponse:
         assert response.response is None
         assert response.is_success == RepositoryResultStatusEnum.SUCCESS
         assert response.status == RepositoryResponseStatusEnum.DELETED
-        assert response.reason == RepositoryFailedResponseEnum.UNKNOWN
+        assert response.reason is None
         assert response.message is None
 
     def test_failed_response_with_message(self) -> None:
@@ -169,7 +169,7 @@ class TestRepositoryResponse:
         assert response.response is None
         assert response.is_success == RepositoryResultStatusEnum.SUCCESS
         assert response.status == RepositoryResponseStatusEnum.READ
-        assert response.reason == RepositoryFailedResponseEnum.UNKNOWN
+        assert response.reason is None
         assert response.message is None
 
     def test_success_with_message_allowed(self) -> None:
@@ -183,7 +183,7 @@ class TestRepositoryResponse:
         assert response.response is None
         assert response.is_success == RepositoryResultStatusEnum.SUCCESS
         assert response.status == RepositoryResponseStatusEnum.READ
-        assert response.reason == RepositoryFailedResponseEnum.UNKNOWN
+        assert response.reason is None
         assert response.message == "Successfully retrieved data"
 
     def test_validator_error_when_failed_without_message(self) -> None:
@@ -198,7 +198,7 @@ class TestRepositoryResponse:
         assert len(error.errors()) == 1
         assert error.errors()[0]["type"] == "value_error"
         assert (
-            "'self.message' is required when 'self.is_success' is set to 'ERROR'"
+            "'self.reason' is required when 'self.is_success' is set to 'ERROR'"
             in str(error)
         )
 
@@ -215,7 +215,7 @@ class TestRepositoryResponse:
         assert len(error.errors()) == 1
         assert error.errors()[0]["type"] == "value_error"
         assert (
-            "'self.message' is required when 'self.is_success' is set to 'ERROR'"
+            "'self.reason' is required when 'self.is_success' is set to 'ERROR'"
             in str(error)
         )
 
@@ -235,6 +235,7 @@ class TestRepositoryResponse:
             response=None,
             is_success=RepositoryResultStatusEnum.ERROR,
             status=RepositoryResponseStatusEnum.FAILED,
+            reason=RepositoryFailedResponseEnum.UNKNOWN,
             message="Error occurred",
         )
 
@@ -275,6 +276,7 @@ class TestRepositoryResponse:
             response=None,
             is_success=RepositoryResultStatusEnum.ERROR,
             status=RepositoryResponseStatusEnum.FAILED,
+            reason=RepositoryFailedResponseEnum.UNKNOWN,
             message="Test error",
         )
         assert failed_response.status == RepositoryResponseStatusEnum.FAILED
@@ -288,7 +290,7 @@ class TestRepositoryResponse:
         )
 
         # Test default values
-        assert response.reason == RepositoryFailedResponseEnum.UNKNOWN
+        assert response.reason is None
         assert response.message is None
 
     def test_explicit_reason_override(self) -> None:
