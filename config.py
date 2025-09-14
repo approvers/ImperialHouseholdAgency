@@ -39,7 +39,7 @@ class BaseConfig(
 
     # Sentry
     sentry_dsn: str = Field(alias="SENTRY_DSN")
-    sentry_env: str = Field(alias="SENTRY_ENV")
+    sentry_env: str | None = Field(default=None, alias="SENTRY_ENV")
 
     @property
     def SENTRY_DSN(self) -> str:
@@ -47,7 +47,10 @@ class BaseConfig(
 
     @property
     def SENTRY_ENV(self) -> str:
-        return self.sentry_env
+        if self.sentry_env:
+            return self.sentry_env
+
+        return self.ENVIRONMENT.value()
 
 
 class TestConfig(BaseConfig):
