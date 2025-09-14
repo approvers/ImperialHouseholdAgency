@@ -76,3 +76,18 @@ jobs:
             -w /app \
             ${{ env.IMAGE_TO_TEST }} \
             uv run ruff format
+
+      - name: Run pytest with coverage in container
+        run: |
+          docker run --rm \
+            -v "${{ github.workspace }}:/app" \
+            -w /app \
+            ${{ env.IMAGE_TO_TEST }} \
+            uv run pytest
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage.xml
+          fail_ci_if_error: true
