@@ -6,3 +6,7 @@ from src.infrastructure.repository.sqlalchemy.model.nickname import NicknameChan
 from src.infrastructure.repository.sqlalchemy.model.user import User
 
 MODELS: Final[tuple[type[Base], ...]] = (Messenger, User, NicknameChangelog)
+
+
+def load_all_sa_models() -> None:
+    pass
