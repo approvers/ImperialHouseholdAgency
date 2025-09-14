@@ -50,7 +50,7 @@ class BaseConfig(
         if self.sentry_env:
             return self.sentry_env
 
-        return self.ENVIRONMENT.value()
+        return self.ENVIRONMENT.name
 
 
 class TestConfig(BaseConfig):
