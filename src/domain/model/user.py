@@ -1,5 +1,4 @@
-from pydantic import BaseModel
-
+from src.domain.model.base import DomainModelBase
 from src.domain.value.user import (
     UserRecordID,
     UserCreatedAt,
@@ -9,7 +8,7 @@ from src.domain.value.user import (
 )
 
 
-class User(BaseModel):
+class User(DomainModelBase):
     record_id: UserRecordID
     created_at: UserCreatedAt
     updated_at: UserUpdatedAt

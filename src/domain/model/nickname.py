@@ -1,5 +1,4 @@
-from pydantic import BaseModel
-
+from src.domain.model.base import DomainModelBase
 from src.domain.value.nickname import (
     NicknameChangelogCreatedAt,
     NicknameChangelogBefore,
@@ -7,7 +6,7 @@ from src.domain.value.nickname import (
 )
 
 
-class NicknameChangelog(BaseModel):
+class NicknameChangelog(DomainModelBase):
     created_at: NicknameChangelogCreatedAt
     before: NicknameChangelogBefore
     after: NicknameChangelogAfter
