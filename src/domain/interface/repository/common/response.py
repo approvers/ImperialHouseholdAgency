@@ -23,7 +23,7 @@ class RepositoryFailedResponseEnum(StrEnum):
     UNKNOWN = "UNKNOWN"
 
 
-class RepositoryResponse[ResponseT: DomainModelBase | Iterable[DomainModelBase]](
+class RepositoryResponse[ResponseT: DomainModelBase | Iterable[DomainModelBase] | None](
     BaseModel
 ):
     response: ResponseT
