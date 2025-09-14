@@ -24,7 +24,9 @@ def test_process_bind_param_with_none(dialect: object) -> None:
     assert result is None
 
 
-def test_process_result_value_with_string(sample_ulid_str: str, dialect: object) -> None:
+def test_process_result_value_with_string(
+    sample_ulid_str: str, dialect: object
+) -> None:
     column = ULIDColumn()
     result = column.process_result_value(sample_ulid_str, dialect)  # type: ignore[arg-type]
 
