@@ -8,7 +8,7 @@ from src.domain.model.messenger import Messenger
 
 class MessengerRepository(RepositoryBase):
     @abstractmethod
-    async def create(self, data: Messenger) -> RepositoryResponse[Messenger]:
+    async def create(self, data: Messenger) -> RepositoryResponse[Messenger | None]:
         pass
 
     @abstractmethod
