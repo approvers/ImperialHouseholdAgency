@@ -1,7 +1,7 @@
 from pydantic import RootModel
 
 from src.domain.value.base.identifier import ULIDBase
-from src.domain.value.base.time import CreatedAtBase
+from src.domain.value.base.time import CreatedAtBase, UpdatedAtBase
 from src.domain.value.messenger import MessengerRecordID
 
 
@@ -10,6 +10,10 @@ class UserRecordID(ULIDBase):
 
 
 class UserCreatedAt(CreatedAtBase):
+    pass
+
+
+class UserUpdatedAt(UpdatedAtBase):
     pass
 
 
