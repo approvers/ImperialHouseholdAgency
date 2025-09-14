@@ -1,6 +1,6 @@
 import os
 
-from pydantic import Field
+from pydantic import Field, HttpUrl
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from src.domain.config import DomainConfigIF, EnvironmentEnum
@@ -38,12 +38,17 @@ class BaseConfig(
         return self.discord_token
 
     # Sentry
-    sentry_dsn: str = Field(alias="SENTRY_DSN")
+    sentry_dsn: HttpUrl = Field(
+        default=HttpUrl(
+            "https://18f318e974680126187592b8001394df@o4509562192330752.ingest.de.sentry.io/4510019968499792"
+        ),
+        alias="SENTRY_DSN",
+    )
     sentry_env: str | None = Field(default=None, alias="SENTRY_ENV")
 
     @property
     def SENTRY_DSN(self) -> str:
-        return self.sentry_dsn
+        return str(self.sentry_dsn)
 
     @property
     def SENTRY_ENV(self) -> str:
