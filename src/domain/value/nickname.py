@@ -2,6 +2,7 @@ from pydantic import RootModel
 
 from src.domain.value.base.identifier import ULIDBase
 from src.domain.value.base.time import CreatedAtBase
+from src.domain.value.user import UserRecordID
 
 
 class NicknameChangelogRecordID(ULIDBase):
@@ -9,6 +10,10 @@ class NicknameChangelogRecordID(ULIDBase):
 
 
 class NicknameChangelogCreatedAt(CreatedAtBase):
+    pass
+
+
+class NicknameChangelogUserRecordID(UserRecordID):
     pass
 
 
