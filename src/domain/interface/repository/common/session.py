@@ -12,7 +12,7 @@ class AsyncSessionIF(SessionIF):
     pass
 
 
-class SessionProvider[SessionT: SessionIF](Interface, Generator):
+class SessionProviderIF[SessionT: SessionIF](Interface, Generator):
     @abstractmethod
     def __enter__(self) -> SessionIF:
         pass
@@ -22,7 +22,7 @@ class SessionProvider[SessionT: SessionIF](Interface, Generator):
         pass
 
 
-class AsyncSessionProvider[SessionT: SessionIF](Interface, AsyncGenerator):
+class AsyncSessionProviderIF[SessionT: SessionIF](Interface, AsyncGenerator):
     @abstractmethod
     async def __aenter__(self) -> SessionIF:
         pass
