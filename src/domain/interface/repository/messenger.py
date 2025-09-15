@@ -3,14 +3,19 @@ from typing import Iterable
 
 from src.domain.interface.repository.common.base import RepositoryBase
 from src.domain.interface.repository.common.response import RepositoryResponse
+from src.domain.interface.repository.common.session import SessionIF
 from src.domain.model.messenger import Messenger
 
 
 class MessengerRepository(RepositoryBase):
     @abstractmethod
-    async def create(self, data: Messenger) -> RepositoryResponse[Messenger | None]:
+    async def create(
+        self, data: Messenger, session: SessionIF
+    ) -> RepositoryResponse[Messenger | None]:
         pass
 
     @abstractmethod
-    async def get_all(self) -> RepositoryResponse[Iterable[Messenger]]:
+    async def get_all(
+        self, session: SessionIF
+    ) -> RepositoryResponse[Iterable[Messenger]]:
         pass
