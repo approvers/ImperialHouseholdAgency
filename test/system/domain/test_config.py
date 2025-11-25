@@ -1,6 +1,6 @@
 import pytest
 
-from src.system.domain.config import DomainConfigIF, EnvironmentEnum
+from src.system.domain.config import DomainConfigIf, EnvironmentEnum
 
 
 def test_environment_enum_test_value() -> None:
@@ -26,4 +26,4 @@ def test_environment_enum_all_values() -> None:
 
 def test_domain_config_if_is_abstract() -> None:
     with pytest.raises(TypeError):
-        DomainConfigIF()  # type: ignore[abstract]
+        DomainConfigIf()  # type: ignore[abstract]

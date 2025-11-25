@@ -1,16 +1,16 @@
 from injector import Injector
 
-from src.system.domain.config import DomainConfigIF
+from src.system.domain.config import DomainConfigIf
 from src.system.di.container import DIContainer
-from src.system.infrastructure.repository.sqlalchemy.config import SQLAlchemyConfigIF
-from src.system.infrastructure.sentry.config import SentryConfigIF
-from src.system.ui.discord.config import DiscordConfigIF
+from src.system.infrastructure.repository.sqlalchemy.config import SQLAlchemyConfigIf
+from src.system.infrastructure.sentry.config import SentryConfigIf
+from src.system.ui.discord.config import DiscordConfigIf
 
 SHOULD_BE_ABLE_TO_GET: list[type] = [
-    DomainConfigIF,
-    SQLAlchemyConfigIF,
-    DiscordConfigIF,
-    SentryConfigIF,
+    DomainConfigIf,
+    SQLAlchemyConfigIf,
+    DiscordConfigIf,
+    SentryConfigIf,
 ]
 
 

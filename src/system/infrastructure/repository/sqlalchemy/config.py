@@ -1,9 +1,9 @@
 from abc import abstractmethod
 
-from src.common.interface import ConfigIF
+from src.config.interface import ConfigIf
 
 
-class SQLAlchemyConfigIF(ConfigIF):
+class SQLAlchemyConfigIf(ConfigIf):
     # noinspection PyPep8Naming
     @property
     @abstractmethod

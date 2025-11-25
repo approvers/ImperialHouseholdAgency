@@ -1,10 +1,10 @@
 from abc import abstractmethod
 
-from src.common.interface import ConfigIF
+from src.config.interface import ConfigIf
 
 
 # noinspection PyPep8Naming
-class DiscordConfigIF(ConfigIF):
+class DiscordConfigIf(ConfigIf):
     @property
     @abstractmethod
     def DISCORD_TOKEN(self) -> str:

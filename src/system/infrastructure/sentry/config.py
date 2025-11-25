@@ -1,9 +1,9 @@
 from abc import abstractmethod
 
-from src.common.interface import ConfigIF
+from src.config.interface import ConfigIf
 
 
-class SentryConfigIF(ConfigIF):
+class SentryConfigIf(ConfigIf):
     @property
     @abstractmethod
     def SENTRY_DSN(self) -> str:

@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from enum import StrEnum
 
-from src.common.interface import ConfigIF
+from src.config.interface import ConfigIf
 
 
 class EnvironmentEnum(StrEnum):
@@ -10,7 +10,7 @@ class EnvironmentEnum(StrEnum):
     DEVELOPMENT = "DEVELOPMENT"
 
 
-class DomainConfigIF(ConfigIF):
+class DomainConfigIf(ConfigIf):
     # noinspection PyPep8Naming
     @property
     @abstractmethod

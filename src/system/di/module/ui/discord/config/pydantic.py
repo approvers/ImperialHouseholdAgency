@@ -3,13 +3,13 @@ from src.system.di.builder import ModuleBase, BindEntry
 
 from injector import SingletonScope
 
-from src.system.ui.discord.config import DiscordConfigIF
+from src.system.ui.discord.config import DiscordConfigIf
 
 
 class PydanticDiscordConfigModule(ModuleBase):
     _BINDINGS = (
         BindEntry(
-            interface=DiscordConfigIF,
+            interface=DiscordConfigIf,
             to=get_config_for_current_env(),
             scope=SingletonScope,
         ),

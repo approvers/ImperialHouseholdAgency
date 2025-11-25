@@ -5,7 +5,7 @@ from logging.config import fileConfig
 from alembic import context
 
 from src.system.di import DIContainer
-from src.system.infrastructure.repository.sqlalchemy.config import SQLAlchemyConfigIF
+from src.system.infrastructure.repository.sqlalchemy.config import SQLAlchemyConfigIf
 from src.system.infrastructure import MODELS
 from src.system.infrastructure import Base
 
@@ -43,7 +43,7 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    url = DIContainer.get(SQLAlchemyConfigIF).DATABASE_URL  # type: ignore[type-abstract]
+    url = DIContainer.get(SQLAlchemyConfigIf).DATABASE_URL  # type: ignore[type-abstract]
     # Convert asyncpg URL to psycopg2 for synchronous migrations
     if url and url.startswith("asyncpg://"):
         url = url.replace("asyncpg://", "postgresql://")
