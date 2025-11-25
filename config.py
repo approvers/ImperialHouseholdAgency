@@ -68,7 +68,7 @@ class BaseConfig(
 
     @property
     def LOGFIRE_WRITE_TOKEN(self) -> str | None:
-        pass
+        return self.logfire_write_token
 
 
 class TestConfig(BaseConfig):
