@@ -4,13 +4,19 @@ from pydantic import Field, HttpUrl
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from src.system.domain.config import DomainConfigIf, EnvironmentEnum
+from src.system.infrastructure.logfire.config import LogfireConfigIf
 from src.system.infrastructure.repository.sqlalchemy.config import SQLAlchemyConfigIf
 from src.system.infrastructure.sentry.config import SentryConfigIf
 from src.system.ui.discord.config import DiscordConfigIf
 
 
 class BaseConfig(
-    DomainConfigIf, SQLAlchemyConfigIf, DiscordConfigIf, SentryConfigIf, BaseSettings
+    DomainConfigIf,
+    SQLAlchemyConfigIf,
+    DiscordConfigIf,
+    SentryConfigIf,
+    LogfireConfigIf,
+    BaseSettings,
 ):
     model_config = SettingsConfigDict(
         env_file="./env/test.env", env_file_encoding="utf-8", extra="allow"
@@ -56,6 +62,13 @@ class BaseConfig(
             return self.sentry_env
 
         return self.ENVIRONMENT.name
+
+    # Logfire
+    logfire_write_token: str | None = Field(default=None, alias="LOGFIRE_WRITE_TOKEN")
+
+    @property
+    def LOGFIRE_WRITE_TOKEN(self) -> str | None:
+        pass
 
 
 class TestConfig(BaseConfig):
