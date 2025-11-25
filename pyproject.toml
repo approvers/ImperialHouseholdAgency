@@ -9,6 +9,7 @@ dependencies = [
     "asyncpg>=0.30.0",
     "discord-py>=2.6.3",
     "injector>=0.22.0",
+    "logfire>=4.15.1",
     "psycopg2-binary>=2.9.10",
     "pydantic>=2.11.7",
     "pydantic-settings>=2.10.1",
