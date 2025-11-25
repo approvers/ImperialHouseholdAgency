@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from enum import StrEnum
 
-from src.config.interface import ConfigIf
+from src.common.config.interface import ConfigIf
 
 
 class EnvironmentEnum(StrEnum):

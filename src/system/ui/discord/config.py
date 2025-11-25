@@ -1,6 +1,6 @@
 from abc import abstractmethod
 
-from src.config.interface import ConfigIf
+from src.common.config.interface import ConfigIf
 
 
 # noinspection PyPep8Naming
