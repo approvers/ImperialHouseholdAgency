@@ -19,7 +19,7 @@ class BaseConfig(
     BaseSettings,
 ):
     model_config = SettingsConfigDict(
-        env_file="./env/test.env", env_file_encoding="utf-8", extra="allow"
+        env_file="./env/test.env", env_file_encoding="utf-8", extra="allow", frozen=True
     )
 
     # domain
