@@ -1,5 +1,4 @@
 from src.common.interface import Interface
 
 
-class ConfigIf(Interface):
-    ...
+class ConfigIf(Interface): ...
