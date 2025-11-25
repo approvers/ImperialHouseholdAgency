@@ -3,10 +3,10 @@ import os
 from pydantic import Field, HttpUrl
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from src.domain.config import DomainConfigIF, EnvironmentEnum
-from src.infrastructure.repository.sqlalchemy.config import SQLAlchemyConfigIF
-from src.infrastructure.sentry.config import SentryConfigIF
-from src.ui.discord.config import DiscordConfigIF
+from src.system.domain.config import DomainConfigIF, EnvironmentEnum
+from src.system.infrastructure.repository.sqlalchemy.config import SQLAlchemyConfigIF
+from src.system.infrastructure.sentry.config import SentryConfigIF
+from src.system.ui.discord.config import DiscordConfigIF
 
 
 class BaseConfig(

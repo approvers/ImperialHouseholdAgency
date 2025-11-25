@@ -4,10 +4,10 @@ from logging.config import fileConfig
 
 from alembic import context
 
-from src.di.container import DIContainer
-from src.infrastructure.repository.sqlalchemy.config import SQLAlchemyConfigIF
-from src.infrastructure.repository.sqlalchemy.model.all import MODELS
-from src.infrastructure.repository.sqlalchemy.model.base import Base
+from src.system.di import DIContainer
+from src.system.infrastructure.repository.sqlalchemy.config import SQLAlchemyConfigIF
+from src.system.infrastructure import MODELS
+from src.system.infrastructure import Base
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
