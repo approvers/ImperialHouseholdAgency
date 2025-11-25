@@ -3,14 +3,14 @@ import os
 from pydantic import Field, HttpUrl
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from src.domain.config import DomainConfigIF, EnvironmentEnum
-from src.infrastructure.repository.sqlalchemy.config import SQLAlchemyConfigIF
-from src.infrastructure.sentry.config import SentryConfigIF
-from src.ui.discord.config import DiscordConfigIF
+from src.system.domain.config import DomainConfigIf, EnvironmentEnum
+from src.system.infrastructure.repository.sqlalchemy.config import SQLAlchemyConfigIf
+from src.system.infrastructure.sentry.config import SentryConfigIf
+from src.system.ui.discord.config import DiscordConfigIf
 
 
 class BaseConfig(
-    DomainConfigIF, SQLAlchemyConfigIF, DiscordConfigIF, SentryConfigIF, BaseSettings
+    DomainConfigIf, SQLAlchemyConfigIf, DiscordConfigIf, SentryConfigIf, BaseSettings
 ):
     model_config = SettingsConfigDict(
         env_file="./env/test.env", env_file_encoding="utf-8", extra="allow"

@@ -1,5 +1,5 @@
 services:
-  app:
+  deploy_app:
     build:
       context: .
       dockerfile: ./docker/python/Dockerfile

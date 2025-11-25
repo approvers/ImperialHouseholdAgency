@@ -1,5 +1,5 @@
 services:
-  app:
+  developer_app:
     build:
       context: .
       dockerfile: ./docker/python/Dockerfile
@@ -11,7 +11,7 @@ services:
     command: ["sleep", "infinity"]
     tty: true
     depends_on:
-      - db
+      - developer_db
     env_file:
       - "./env/local.env"
     volumes:
@@ -28,7 +28,7 @@ services:
         - action: rebuild
           path: ./uv.lock
 
-  db:
+  developer_db:
     build:
       context: ./docker/postgresql
       dockerfile: Dockerfile
@@ -36,11 +36,11 @@ services:
     ports:
       - "${POSTGRES_PORT}:5432"
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - developer_db_data
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
 
 volumes:
-  db_data:
+  developer_db_data:
