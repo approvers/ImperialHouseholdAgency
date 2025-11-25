@@ -1,5 +1,5 @@
 from config import get_config_for_current_env
-from src.system.di.builder import ModuleBase, BindEntry
+from src.common.di.builder import ModuleBase, BindEntry
 
 from injector import SingletonScope
 
