@@ -4,10 +4,11 @@ from src.system.di.container import DIContainer
 from src.system.infrastructure.sentry.config import SentryConfigIf
 
 
-def init_sentry() -> None:
-    config = DIContainer.get(SentryConfigIf)  # type: ignore [type-abstract]
+def init_sentry(config: SentryConfigIf | None = None) -> None:
+    actual_config = config or DIContainer.get(SentryConfigIf)  # type: ignore [type-abstract]
+
 
     sentry_sdk.init(
-        dsn=str(config.SENTRY_DSN),
+        dsn=str(actual_config.SENTRY_DSN),
         send_default_pii=True,
     )
