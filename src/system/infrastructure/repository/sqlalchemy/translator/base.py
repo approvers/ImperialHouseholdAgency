@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from typing import TypeVar
 
-from src.system.common.interface import Interface
+from src.common.interface import Interface
 from src.system.domain.model.base import DomainModelBase
 from src.system.infrastructure.repository.sqlalchemy.model.base import Base
 

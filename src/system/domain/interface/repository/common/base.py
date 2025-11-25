@@ -1,4 +1,4 @@
-from src.system.common.interface import Interface
+from src.common.interface import Interface
 
 
 class RepositoryBase(Interface):

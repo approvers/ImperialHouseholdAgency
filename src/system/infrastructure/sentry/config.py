@@ -1,6 +1,6 @@
 from abc import abstractmethod
 
-from src.system.common.interface import ConfigIF
+from src.common.interface import ConfigIF
 
 
 class SentryConfigIF(ConfigIF):

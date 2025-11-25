@@ -3,7 +3,7 @@ from ulid import ULID
 
 from pydantic import RootModel, Field
 
-from src.system.common.interface import Interface
+from src.common.interface import Interface
 from src.system.util.id import generate_ulid
 
 IDType = TypeVar("IDType")
