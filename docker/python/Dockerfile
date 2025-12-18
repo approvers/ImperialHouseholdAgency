@@ -70,6 +70,29 @@ CMD ["sleep", "infinity"]
 # =================================================================
 # Since Python requires glibc to run,
 # we can't change the base image to static:nonroot.
+FROM gcr.io/distroless/cc-debian12:nonroot AS tester
+
+# Inherit Common environment variables
+ARG PYTHON_BIN_PATH
+
+ARG VENV_DIR
+ARG APP_DIR
+
+# Copy uv binary for running tests
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
+# Copy built artifacts
+COPY --from=builder_with_dev --chown=nonroot:nonroot ${PYTHON_BIN_PATH} ${PYTHON_BIN_PATH}
+COPY --from=builder_with_dev --chown=nonroot:nonroot ${VENV_DIR} ${VENV_DIR}
+COPY --from=builder_with_dev --chown=nonroot:nonroot ${APP_DIR} ${APP_DIR}
+
+ENV PATH="${VENV_DIR}/bin:$PATH"
+
+WORKDIR ${APP_DIR}
+
+# =================================================================
+# Since Python requires glibc to run,
+# we can't change the base image to static:nonroot.
 FROM gcr.io/distroless/cc-debian12:nonroot AS runner
 
 # Inherit Common environment variables
