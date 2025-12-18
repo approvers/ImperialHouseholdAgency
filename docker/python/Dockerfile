@@ -66,7 +66,9 @@ RUN --mount=type=cache,target=/tmp/.cache/uv \
 CMD ["sleep", "infinity"]
 
 # =================================================================
-FROM gcr.io/distroless/base-debian12:nonroot AS runner
+# Since Python requires glibc to run,
+# we can't change the base image to static:nonroot.
+FROM gcr.io/distroless/cc-debian12:nonroot AS runner
 
 # Inherit Common environment variables
 ARG PYTHON_BIN_PATH
