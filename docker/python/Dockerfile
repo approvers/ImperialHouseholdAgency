@@ -5,7 +5,7 @@ ARG VENV_DIR=/opt/venv
 ARG APP_DIR=/opt/app
 
 # =================================================================
-FROM ghcr.io/astral-sh/uv:bookworm-slim AS builder
+FROM ghcr.io/astral-sh/uv:bookworm-slim AS builder_without_dev
 
 # Inherit Common environment variables
 ARG PYTHON_VERSION
@@ -49,9 +49,9 @@ ENV UV_PROJECT_ENVIRONMENT=${VENV_DIR}
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 # Copy built artifacts
-COPY --from=builder ${PYTHON_BIN_PATH} ${PYTHON_BIN_PATH}
-COPY --from=builder ${VENV_DIR} ${VENV_DIR}
-COPY --from=builder ${APP_DIR} ${APP_DIR}
+COPY --from=builder_without_dev ${PYTHON_BIN_PATH} ${PYTHON_BIN_PATH}
+COPY --from=builder_without_dev ${VENV_DIR} ${VENV_DIR}
+COPY --from=builder_without_dev ${APP_DIR} ${APP_DIR}
 
 ENV PATH="${VENV_DIR}/bin:$PATH"
 
@@ -77,9 +77,9 @@ ARG VENV_DIR
 ARG APP_DIR
 
 # Copy built artifacts
-COPY --from=builder --chown=nonroot:nonroot ${PYTHON_BIN_PATH} ${PYTHON_BIN_PATH}
-COPY --from=builder --chown=nonroot:nonroot ${VENV_DIR} ${VENV_DIR}
-COPY --from=builder --chown=nonroot:nonroot ${APP_DIR} ${APP_DIR}
+COPY --from=builder_without_dev --chown=nonroot:nonroot ${PYTHON_BIN_PATH} ${PYTHON_BIN_PATH}
+COPY --from=builder_without_dev --chown=nonroot:nonroot ${VENV_DIR} ${VENV_DIR}
+COPY --from=builder_without_dev --chown=nonroot:nonroot ${APP_DIR} ${APP_DIR}
 
 ENV PATH="${VENV_DIR}/bin:$PATH"
 
