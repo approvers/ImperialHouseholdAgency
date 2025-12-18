@@ -4,8 +4,8 @@ services:
       context: .
       dockerfile: ./docker/python/Dockerfile
       target: runner
-    image: imperial-household-agency
-    container_name: app
+    image: ghcr.io/approvers/imperial-household-agency:${VERSION:-${GIT_SHA:-latest}}
+    container_name: imperial-household-agency-prod
     tty: true
     env_file:
       - "./env/local.env"
