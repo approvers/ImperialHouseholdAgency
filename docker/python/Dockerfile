@@ -5,7 +5,7 @@ ARG VENV_DIR=/opt/venv
 ARG APP_DIR=/opt/app
 
 # =================================================================
-FROM ghcr.io/astral-sh/uv:bookworm-slim AS builder
+FROM ghcr.io/astral-sh/uv:bookworm-slim AS builder_without_dev
 
 # Inherit Common environment variables
 ARG PYTHON_VERSION
@@ -36,6 +36,14 @@ RUN --mount=type=cache,target=/tmp/.cache/uv \
 COPY ./ ${APP_DIR}
 
 # =================================================================
+FROM builder_without_dev AS builder_with_dev
+# Install dependencies
+RUN --mount=type=cache,target=/tmp/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --frozen --no-install-project --dev --no-editable
+
+# =================================================================
 FROM ubuntu:24.04 AS developer
 
 # Inherit Common environment variables
@@ -49,21 +57,38 @@ ENV UV_PROJECT_ENVIRONMENT=${VENV_DIR}
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 # Copy built artifacts
-COPY --from=builder ${PYTHON_BIN_PATH} ${PYTHON_BIN_PATH}
-COPY --from=builder ${VENV_DIR} ${VENV_DIR}
-COPY --from=builder ${APP_DIR} ${APP_DIR}
+COPY --from=builder_with_dev ${PYTHON_BIN_PATH} ${PYTHON_BIN_PATH}
+COPY --from=builder_with_dev ${VENV_DIR} ${VENV_DIR}
+COPY --from=builder_with_dev ${APP_DIR} ${APP_DIR}
 
 ENV PATH="${VENV_DIR}/bin:$PATH"
 
 WORKDIR ${APP_DIR}
 
-# Install dev dependencies
-RUN --mount=type=cache,target=/tmp/.cache/uv \
-    --mount=type=bind,source=uv.lock,target=uv.lock \
-    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    uv sync --frozen --dev
-
 CMD ["sleep", "infinity"]
+
+# =================================================================
+# Since Python requires glibc to run,
+# we can't change the base image to static:nonroot.
+FROM gcr.io/distroless/cc-debian12:nonroot AS tester
+
+# Inherit Common environment variables
+ARG PYTHON_BIN_PATH
+
+ARG VENV_DIR
+ARG APP_DIR
+
+# Copy uv binary for running tests
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
+# Copy built artifacts
+COPY --from=builder_with_dev --chown=nonroot:nonroot ${PYTHON_BIN_PATH} ${PYTHON_BIN_PATH}
+COPY --from=builder_with_dev --chown=nonroot:nonroot ${VENV_DIR} ${VENV_DIR}
+COPY --from=builder_with_dev --chown=nonroot:nonroot ${APP_DIR} ${APP_DIR}
+
+ENV PATH="${VENV_DIR}/bin:$PATH"
+
+WORKDIR ${APP_DIR}
 
 # =================================================================
 # Since Python requires glibc to run,
@@ -77,9 +102,9 @@ ARG VENV_DIR
 ARG APP_DIR
 
 # Copy built artifacts
-COPY --from=builder --chown=nonroot:nonroot ${PYTHON_BIN_PATH} ${PYTHON_BIN_PATH}
-COPY --from=builder --chown=nonroot:nonroot ${VENV_DIR} ${VENV_DIR}
-COPY --from=builder --chown=nonroot:nonroot ${APP_DIR} ${APP_DIR}
+COPY --from=builder_without_dev --chown=nonroot:nonroot ${PYTHON_BIN_PATH} ${PYTHON_BIN_PATH}
+COPY --from=builder_without_dev --chown=nonroot:nonroot ${VENV_DIR} ${VENV_DIR}
+COPY --from=builder_without_dev --chown=nonroot:nonroot ${APP_DIR} ${APP_DIR}
 
 ENV PATH="${VENV_DIR}/bin:$PATH"
 
