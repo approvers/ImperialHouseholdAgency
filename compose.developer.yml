@@ -4,7 +4,6 @@ services:
       context: .
       dockerfile: ./docker/python/Dockerfile
       target: developer
-    platform: linux/amd64
     image: imperial-household-agency
     container_name: app
     # TODO: Change here to start a bot process!
