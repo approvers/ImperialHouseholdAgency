@@ -8,12 +8,20 @@ from src.system.infrastructure.repository.sqlalchemy.translator.base import (
 class SAUserTranslator(BaseSADomainTranslator[DomainUser, SAUser]):
     @staticmethod
     def to_domain(db_record: SAUser) -> DomainUser:
+        from src.system.domain.value.user import (
+            UserRecordID,
+            UserCreatedAt,
+            UserUpdatedAt,
+            UserMessengerRecordID,
+            UserID,
+        )
+
         result = DomainUser(
-            record_id=db_record.record_id,
-            created_at=db_record.created_at,
-            updated_at=db_record.updated_at,
-            messenger_record_id=db_record.messenger_record_id,
-            id=db_record.user_id,
+            record_id=UserRecordID(db_record.record_id),
+            created_at=UserCreatedAt(db_record.created_at),
+            updated_at=UserUpdatedAt(db_record.updated_at),
+            messenger_record_id=UserMessengerRecordID(db_record.messenger_record_id),
+            id=UserID(db_record.user_id),
         )
 
         return result
