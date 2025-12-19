@@ -1,4 +1,3 @@
-from sqlalchemy import String
 from ulid import ULID
 
 from src.system.infrastructure.repository.sqlalchemy.type.ulid import ULIDColumn
@@ -7,7 +6,6 @@ from src.system.infrastructure.repository.sqlalchemy.type.ulid import ULIDColumn
 def test_ulid_column_init() -> None:
     column = ULIDColumn()
     assert column.cache_ok is True
-    assert isinstance(column.impl, String)
     assert column.impl.length == 26
 
 

@@ -3,7 +3,7 @@ from ulid import ULID
 
 
 class ULIDColumn(TypeDecorator[ULID]):
-    impl: String = String(length=26)
+    impl = String(length=26)
     cache_ok = True
 
     def process_bind_param(self, value: ULID | None, dialect: Dialect) -> str | None:

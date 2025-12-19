@@ -10,18 +10,12 @@ from src.system.infrastructure.repository.sqlalchemy.translator.base import (
 class SAMessengerTranslator(BaseSADomainTranslator[DomainMessenger, SAMessenger]):
     @staticmethod
     def to_domain(db_record: SAMessenger) -> DomainMessenger:
-        from src.system.domain.value.messenger import (
-            MessengerRecordID,
-            MessengerCreatedAt,
-            MessengerUpdatedAt,
-            MessengerName,
-        )
-
+        # noinspection PyTypeChecker,PydanticTypeChecker
         result = DomainMessenger(
-            record_id=MessengerRecordID(db_record.record_id),
-            created_at=MessengerCreatedAt(db_record.created_at),
-            updated_at=MessengerUpdatedAt(db_record.updated_at),
-            name=MessengerName(db_record.name),
+            record_id=db_record.record_id,
+            created_at=db_record.created_at,
+            updated_at=db_record.updated_at,
+            name=db_record.name,
         )
 
         return result
