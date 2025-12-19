@@ -1,10 +1,34 @@
-- 実装は mypy --strict, ty check, ruff check --fix, ruff format, pytest をすべて通過しなければならない。
-- src 配下の依存関係は厳密に制限する。common は他モジュールに依存してはならない。config は common のみを参照できる。system は common と config を参照できると。外部ライブラリの利用は妥当性を考慮した上で可能とする。
-- 実装およびコミット時は既存のものを確認し、記法や構成を統一すること。特にコードにおいては、同一レイヤーの実装を基準とする。
-- src と test は同一のディレクトリ構成を保つこと。src の変更には test を必ず対応させ、原則として 1 対 1 のファイル対応を保つこと。
-- コミットメッセージ内の識別子は `` (バッククォート) で囲むこと。
-  - クラス名: `ClassName`
-  - 関数・メソッド名: `function_name()`, `ClassName.method_name()`
-  - 変数名・属性名: `variable_name`, `ClassName.attribute`
-  - ファイル名・パス: `file.py`, `path/to/file.py`
-  - コマンド名: `command`
+# Development and Repository Guidelines
+
+## Implementation Requirements
+
+- All implementations **must pass** the following checks:  
+  `mypy --strict`, `ty check`, `ruff check --fix`, `ruff format`, and `pytest`.
+
+## Dependency Rules
+
+- Dependencies under `src` **must be strictly controlled**.
+  - `common` must not depend on any other modules.
+  - `config` may depend **only** on `common`.
+  - `system` may depend on `common` and `config`.
+  - External libraries may be used only when their necessity and appropriateness are justified.
+
+## Code and Commit Conventions
+
+- When implementing code or creating commits, **review existing implementations** and keep notation, structure, and style consistent.  
+  In particular, code should follow the conventions used by other implementations within the same layer.
+
+## Directory Structure
+
+- The directory structures of `src` and `test` **must be identical**.
+  - Any change in `src` must be reflected in `test`.
+  - In principle, a **one-to-one correspondence between files** should be maintained.
+
+## Commit Message Formatting
+
+- Identifiers in commit messages **must be enclosed in backticks (`)**:
+  - Class names: `ClassName`
+  - Functions / methods: `function_name()`, `ClassName.method_name()`
+  - Variables / attributes: `variable_name`, `ClassName.attribute`
+  - File names / paths: `file.py`, `path/to/file.py`
+  - Commands: `command`
