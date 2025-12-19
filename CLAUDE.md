@@ -32,3 +32,8 @@
   - Variables / attributes: `variable_name`, `ClassName.attribute`
   - File names / paths: `file.py`, `path/to/file.py`
   - Commands: `command`
+
+## Language Policy
+
+- The **output language** must follow the language used in the **most recent user input**.
+- **Regardless of the user’s input or output language**, all file contents (including **source code and comments**), **commit messages**, and **any other resources managed within the repository** must be written **in English**.
