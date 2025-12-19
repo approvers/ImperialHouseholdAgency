@@ -1,3 +1,5 @@
+# mypy: disable-error-code="unused-ignore"
+# mypy conflicts with ty
 import os
 
 from pydantic import Field, HttpUrl
@@ -95,17 +97,16 @@ class ProductionConfig(BaseConfig):
     environment: EnvironmentEnum = EnvironmentEnum.PRODUCTION
 
 
-# noinspection PyArgumentList
 def get_config(environment: EnvironmentEnum) -> BaseConfig:
     match environment:
         case EnvironmentEnum.TEST:
-            return TestConfig()
+            return TestConfig()  # type: ignore
 
         case EnvironmentEnum.DEVELOPMENT:
-            return DevelopConfig()
+            return DevelopConfig()  # type: ignore
 
         case EnvironmentEnum.PRODUCTION:
-            return ProductionConfig()
+            return ProductionConfig()  # type: ignore
 
 
 def get_config_for_current_env() -> BaseConfig:
