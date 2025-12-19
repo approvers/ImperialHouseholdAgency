@@ -9,8 +9,8 @@
 
 - Dependencies under `src` **must be strictly controlled**.
   - `common` must not depend on any other modules.
-  - `config` may depend **only** on `common`.
-  - `system` may depend on `common` and `config`.
+  - `common.config` (the `src/common/config` submodule) may depend **only** on `common`.
+  - `system` may depend on `common` and `common.config`.
   - External libraries may be used only when their necessity and appropriateness are justified.
 
 ## Code and Commit Conventions
