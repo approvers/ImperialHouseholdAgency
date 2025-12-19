@@ -4,8 +4,8 @@ services:
       context: .
       dockerfile: ./docker/python/Dockerfile
       target: developer
-    image: imperial-household-agency
-    container_name: app
+    image: ghcr.io/approvers/imperial-household-agency:dev-${GIT_SHA:-latest}
+    container_name: imperial-household-agency-dev
     # TODO: Change here to start a bot process!
     command: ["sleep", "infinity"]
     tty: true
@@ -31,7 +31,7 @@ services:
     build:
       context: ./docker/postgresql
       dockerfile: Dockerfile
-    container_name: db
+    container_name: imperial-household-agency-dev-db
     ports:
       - "${POSTGRES_PORT}:5432"
     volumes:
