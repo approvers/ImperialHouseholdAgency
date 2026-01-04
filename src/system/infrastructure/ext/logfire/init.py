@@ -2,7 +2,7 @@ import logfire
 
 from src.system.di.container import DIContainer
 from src.system.domain.config import DomainConfigIf
-from src.system.infrastructure.logfire.config import LogfireConfigIf
+from src.system.infrastructure.ext.logfire.config import LogfireConfigIf
 
 
 def init_logfire(

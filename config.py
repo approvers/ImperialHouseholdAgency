@@ -6,9 +6,9 @@ from pydantic import Field, HttpUrl
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from src.system.domain.config import DomainConfigIf, EnvironmentEnum
-from src.system.infrastructure.logfire.config import LogfireConfigIf
+from src.system.infrastructure.ext.logfire.config import LogfireConfigIf
 from src.system.infrastructure.repository.sqlalchemy.config import SQLAlchemyConfigIf
-from src.system.infrastructure.sentry.config import SentryConfigIf
+from src.system.infrastructure.ext.sentry.config import SentryConfigIf
 from src.system.ui.discord.config import DiscordConfigIf
 
 

@@ -1,7 +1,7 @@
 import sentry_sdk
 
 from src.system.di.container import DIContainer
-from src.system.infrastructure.sentry.config import SentryConfigIf
+from src.system.infrastructure.ext.sentry.config import SentryConfigIf
 
 
 def init_sentry(config: SentryConfigIf | None = None) -> None:
