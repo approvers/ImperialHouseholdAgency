@@ -16,11 +16,4 @@ class UserRepository(RepositoryBase):
         pass
 
     async def get_or_create(self, user: User) -> RepositoryResponse[User | None]:
-        existing = await self.get(user.record_id)
-
-        if existing.response:
-            return existing
-
-        created = await self.create(user)
-
-        return created
+        pass
