@@ -1,7 +1,7 @@
 import pytest
 from ulid import ULID
 
-from src.system.util.id import generate_ulid
+from system.util.id import generate_ulid
 
 
 @pytest.fixture
