@@ -6,9 +6,17 @@ from src.system.di.module.infrastructure.repository.sqlalchemy.module import (
     SARepositoryModule,
 )
 from src.system.domain.interface.repository.messenger import MessengerRepository
+from src.system.domain.interface.repository.nickname import NicknameChangelogRepository
+from src.system.domain.interface.repository.user import UserRepository
 from src.system.infrastructure.repository.sqlalchemy.config import SQLAlchemyConfigIf
 from src.system.infrastructure.repository.sqlalchemy.crud.messenger import (
     SAMessengerRepository,
+)
+from src.system.infrastructure.repository.sqlalchemy.crud.nickname import (
+    SANicknameChangelogRepository,
+)
+from src.system.infrastructure.repository.sqlalchemy.crud.user import (
+    SAUserRepository,
 )
 
 
@@ -19,17 +27,31 @@ class MockSQLAlchemyConfig(SQLAlchemyConfigIf):
 
 
 class TestSARepositoryModule:
-    def test_configure_binds_messenger_repository(self) -> None:
+    def test_configure_binds_all_repositories(self) -> None:
         module = SARepositoryModule()
         binder = MagicMock(spec=Binder)
 
         module.configure(binder)
 
-        binder.bind.assert_called_once()
-        call_kwargs = binder.bind.call_args.kwargs
-        assert call_kwargs["interface"] is MessengerRepository
-        assert call_kwargs["to"] is SAMessengerRepository
-        assert call_kwargs["scope"] is singleton
+        assert binder.bind.call_count == 3
+
+        # MessengerRepositoryのバインディングを検証
+        messenger_call = binder.bind.call_args_list[0]
+        assert messenger_call.kwargs["interface"] is MessengerRepository
+        assert messenger_call.kwargs["to"] is SAMessengerRepository
+        assert messenger_call.kwargs["scope"] is singleton
+
+        # UserRepositoryのバインディングを検証
+        user_call = binder.bind.call_args_list[1]
+        assert user_call.kwargs["interface"] is UserRepository
+        assert user_call.kwargs["to"] is SAUserRepository
+        assert user_call.kwargs["scope"] is singleton
+
+        # NicknameChangelogRepositoryのバインディングを検証
+        nickname_call = binder.bind.call_args_list[2]
+        assert nickname_call.kwargs["interface"] is NicknameChangelogRepository
+        assert nickname_call.kwargs["to"] is SANicknameChangelogRepository
+        assert nickname_call.kwargs["scope"] is singleton
 
     @patch(
         "src.system.di.module.infrastructure.repository.sqlalchemy.module.create_async_engine"
