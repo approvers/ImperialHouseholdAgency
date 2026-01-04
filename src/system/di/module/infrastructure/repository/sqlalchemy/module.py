@@ -7,9 +7,17 @@ from sqlalchemy.ext.asyncio import (
 )
 
 from src.system.domain.interface.repository.messenger import MessengerRepository
+from src.system.domain.interface.repository.nickname import NicknameChangelogRepository
+from src.system.domain.interface.repository.user import UserRepository
 from src.system.infrastructure.repository.sqlalchemy.config import SQLAlchemyConfigIf
 from src.system.infrastructure.repository.sqlalchemy.crud.messenger import (
     SAMessengerRepository,
+)
+from src.system.infrastructure.repository.sqlalchemy.crud.nickname import (
+    SANicknameChangelogRepository,
+)
+from src.system.infrastructure.repository.sqlalchemy.crud.user import (
+    SAUserRepository,
 )
 
 
@@ -33,5 +41,15 @@ class SARepositoryModule(Module):
         binder.bind(
             interface=MessengerRepository,  # type: ignore[type-abstract]
             to=SAMessengerRepository,
+            scope=singleton,
+        )
+        binder.bind(
+            interface=UserRepository,  # type: ignore[type-abstract]
+            to=SAUserRepository,
+            scope=singleton,
+        )
+        binder.bind(
+            interface=NicknameChangelogRepository,  # type: ignore[type-abstract]
+            to=SANicknameChangelogRepository,
             scope=singleton,
         )
