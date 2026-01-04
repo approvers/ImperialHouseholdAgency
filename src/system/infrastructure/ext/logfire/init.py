@@ -5,7 +5,7 @@ from src.system.domain.config import DomainConfigIf
 from src.system.infrastructure.ext.logfire.config import LogfireConfigIf
 
 
-def init_logfire(
+def init_logfire(  # pragma: no cover
     *,
     domain_config: DomainConfigIf | None = None,
     logfire_config: LogfireConfigIf | None = None,
