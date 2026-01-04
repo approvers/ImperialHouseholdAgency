@@ -173,3 +173,70 @@ class TestSAMessengerRepositoryGetAll:
         assert result.reason == RepositoryFailedResponseEnum.UNKNOWN
         assert result.message is not None
         assert "Database error" in result.message
+
+
+class TestSAMessengerRepositoryGetByName:
+    @pytest.mark.asyncio
+    async def test_get_by_name_success_found(self, mock_sa_messenger: Any) -> None:
+        mock_result = MagicMock()
+        mock_result.scalar_one_or_none.return_value = mock_sa_messenger
+
+        mock_session = AsyncMock()
+        mock_session.execute = AsyncMock(return_value=mock_result)
+
+        mock_session_factory = MagicMock()
+        mock_session_factory.return_value.__aenter__ = AsyncMock(
+            return_value=mock_session
+        )
+        mock_session_factory.return_value.__aexit__ = AsyncMock(return_value=None)
+
+        repository = SAMessengerRepository(mock_session_factory)
+        name = MessengerName(root="test_messenger")
+        result = await repository.get_by_name(name)
+
+        assert result.is_success == RepositoryResultStatusEnum.SUCCESS
+        assert result.status == RepositoryResponseStatusEnum.READ
+        assert result.response is not None
+
+    @pytest.mark.asyncio
+    async def test_get_by_name_success_not_found(self) -> None:
+        mock_result = MagicMock()
+        mock_result.scalar_one_or_none.return_value = None
+
+        mock_session = AsyncMock()
+        mock_session.execute = AsyncMock(return_value=mock_result)
+
+        mock_session_factory = MagicMock()
+        mock_session_factory.return_value.__aenter__ = AsyncMock(
+            return_value=mock_session
+        )
+        mock_session_factory.return_value.__aexit__ = AsyncMock(return_value=None)
+
+        repository = SAMessengerRepository(mock_session_factory)
+        name = MessengerName(root="nonexistent")
+        result = await repository.get_by_name(name)
+
+        assert result.is_success == RepositoryResultStatusEnum.SUCCESS
+        assert result.status == RepositoryResponseStatusEnum.READ
+        assert result.response is None
+
+    @pytest.mark.asyncio
+    async def test_get_by_name_failure(self) -> None:
+        mock_session = AsyncMock()
+        mock_session.execute = AsyncMock(side_effect=Exception("Database error"))
+
+        mock_session_factory = MagicMock()
+        mock_session_factory.return_value.__aenter__ = AsyncMock(
+            return_value=mock_session
+        )
+        mock_session_factory.return_value.__aexit__ = AsyncMock(return_value=None)
+
+        repository = SAMessengerRepository(mock_session_factory)
+        name = MessengerName(root="test_messenger")
+        result = await repository.get_by_name(name)
+
+        assert result.is_success == RepositoryResultStatusEnum.ERROR
+        assert result.status == RepositoryResponseStatusEnum.FAILED
+        assert result.reason == RepositoryFailedResponseEnum.UNKNOWN
+        assert result.message is not None
+        assert "Database error" in result.message
