@@ -35,6 +35,6 @@ class TestNicknameUsecaseModule:
             [MockRepositoryModule(), NicknameUsecaseModule()], auto_bind=False
         )
 
-        instance = injector.get(RecordNicknameChangeUsecaseIf)
+        instance = injector.get(RecordNicknameChangeUsecaseIf)  # type: ignore[type-abstract]
 
         assert isinstance(instance, RecordNicknameChangeUsecase)
