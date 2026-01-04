@@ -78,13 +78,14 @@ class TestSANicknameChangelogRepositoryCreate:
         mock_session = AsyncMock()
         mock_session.add = MagicMock()
         mock_session.commit = AsyncMock()
-        mock_session.refresh = AsyncMock(
-            side_effect=lambda obj: setattr(obj, "record_id", test_ulid)
-            or setattr(obj, "created_at", test_datetime)
-            or setattr(obj, "user_record_id", test_user_record_id)
-            or setattr(obj, "before", "old_name")
-            or setattr(obj, "after", "new_name")
-        )
+        def refresh_side_effect(obj: Any) -> None:
+            obj.record_id = test_ulid
+            obj.created_at = test_datetime
+            obj.user_record_id = test_user_record_id
+            obj.before = "old_name"
+            obj.after = "new_name"
+
+        mock_session.refresh = AsyncMock(side_effect=refresh_side_effect)
 
         mock_session_factory = MagicMock()
         mock_session_factory.return_value.__aenter__ = AsyncMock(

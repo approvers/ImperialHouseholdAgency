@@ -65,12 +65,13 @@ class TestSAMessengerRepositoryCreate:
         mock_session = AsyncMock()
         mock_session.add = MagicMock()
         mock_session.commit = AsyncMock()
-        mock_session.refresh = AsyncMock(
-            side_effect=lambda obj: setattr(obj, "record_id", test_ulid)
-            or setattr(obj, "created_at", test_datetime)
-            or setattr(obj, "updated_at", test_datetime)
-            or setattr(obj, "name", "test_messenger")
-        )
+        def refresh_side_effect(obj: Any) -> None:
+            obj.record_id = test_ulid
+            obj.created_at = test_datetime
+            obj.updated_at = test_datetime
+            obj.name = "test_messenger"
+
+        mock_session.refresh = AsyncMock(side_effect=refresh_side_effect)
 
         mock_session_factory = MagicMock()
         mock_session_factory.return_value.__aenter__ = AsyncMock(
