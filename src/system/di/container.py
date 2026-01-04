@@ -15,7 +15,9 @@ from src.system.di.module.infrastructure.repository.sqlalchemy.module import (
 from src.system.di.module.infrastructure.ext.sentry.config.pydantic import (
     PydanticSentryConfigModule,
 )
+from src.system.di.module.ui.discord.bot.module import DiscordBotModule
 from src.system.di.module.ui.discord.config.pydantic import PydanticDiscordConfigModule
+from src.system.di.module.usecase.nickname.module import NicknameUsecaseModule
 
 # NOTE:
 #   Change here to change dependencies to load!
@@ -26,6 +28,8 @@ __MODULES: Final[Iterable[Module]] = (
     SARepositoryModule(),
     PydanticSentryConfigModule(),
     PydanticDiscordConfigModule(),
+    NicknameUsecaseModule(),
+    DiscordBotModule(),
 )
 
 DIContainer: Final[Injector] = Injector(

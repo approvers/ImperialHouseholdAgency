@@ -1,4 +1,5 @@
 import logfire
+from injector import inject
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import async_sessionmaker, AsyncSession
 
@@ -18,6 +19,7 @@ from src.system.infrastructure.repository.sqlalchemy.translator.user import (
 
 
 class SAUserRepository(UserRepository):
+    @inject
     def __init__(self, session_factory: async_sessionmaker[AsyncSession]) -> None:
         self.session_factory = session_factory
 
