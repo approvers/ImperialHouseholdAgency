@@ -6,8 +6,11 @@ from src.system.di.module.domain.config.pydantic import PydanticDomainConfigModu
 from src.system.di.module.infrastructure.logfire.config.pydantic import (
     PydanticLogfireConfigModule,
 )
-from src.system.di.module.infrastructure.sqlalchemy.config.pydantic import (
+from src.system.di.module.infrastructure.repository.sqlalchemy.config.pydantic import (
     PydanticSQLAlchemyConfigModule,
+)
+from src.system.di.module.infrastructure.repository.sqlalchemy.module import (
+    SARepositoryModule,
 )
 from src.system.di.module.infrastructure.sentry.config.pydantic import (
     PydanticSentryConfigModule,
@@ -20,6 +23,7 @@ __MODULES: Final[Iterable[Module]] = (
     PydanticDomainConfigModule(),
     PydanticLogfireConfigModule(),
     PydanticSQLAlchemyConfigModule(),
+    SARepositoryModule(),
     PydanticSentryConfigModule(),
     PydanticDiscordConfigModule(),
 )
