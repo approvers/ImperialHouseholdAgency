@@ -25,8 +25,8 @@
 
 ## Directory Structure
 
-- The directory structures of `src` and `test` **must be identical**.
-  - Any change in `src` must be reflected in `test`.
+- Test files are **colocated** with source files in `src/`.
+  - Each source file `module.py` has a corresponding test file `test_module.py` in the same directory.
   - In principle, a **one-to-one correspondence between files** should be maintained.
 
 ## Commit Message Formatting
