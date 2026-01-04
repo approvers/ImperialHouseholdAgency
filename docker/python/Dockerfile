@@ -42,7 +42,7 @@ ARG PYTHON_VERSION=3.13
 # uv version - uses distroless uv image with {major}.{minor} format
 # This automatically uses the latest patch version within the specified minor version
 # See: https://docs.astral.sh/uv/guides/integration/docker/
-ARG UV_VERSION=0.7
+ARG UV_VERSION=0.9
 
 ARG PYTHON_BIN_PATH=/opt/python
 ARG VENV_DIR=/opt/venv
