@@ -15,7 +15,6 @@ from src.system.di.module.infrastructure.repository.sqlalchemy.module import (
 from src.system.di.module.infrastructure.ext.sentry.config.pydantic import (
     PydanticSentryConfigModule,
 )
-from src.system.di.module.ui.discord.bot.module import DiscordBotModule
 from src.system.di.module.ui.discord.config.pydantic import PydanticDiscordConfigModule
 from src.system.di.module.usecase.nickname.module import NicknameUsecaseModule
 
