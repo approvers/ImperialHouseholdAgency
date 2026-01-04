@@ -3,7 +3,7 @@ from unittest.mock import MagicMock
 
 from injector import Binder, singleton
 
-from src.common.di.builder import BindEntry, ModuleBase
+from common.di.builder import BindEntry, ModuleBase
 
 
 class MockInterface(ABC):
