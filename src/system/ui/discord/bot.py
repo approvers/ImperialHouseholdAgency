@@ -9,6 +9,7 @@ from src.system.domain.value.nickname import (
 )
 from src.system.domain.value.user import UserID
 from src.system.ui.discord.config import DiscordConfigIf
+from src.system.ui.discord.error_handler import send_error_embed
 from src.system.usecase.nickname.dto import RecordNicknameChangeRequest
 from src.system.usecase.nickname.interface import RecordNicknameChangeUsecaseIf
 
@@ -50,13 +51,54 @@ class DiscordBot(discord.Client):
             after=NicknameChangelogAfter(after.nick or ""),
         )
 
-        response = await self._record_nickname_change_usecase.execute(request)
+        try:
+            response = await self._record_nickname_change_usecase.execute(request)
 
-        if not response.is_success:
+            if not response.is_success:
+                logfire.error(
+                    "Failed to record nickname change: {message}",
+                    message=response.message,
+                )
+
+        except Exception as error:
             logfire.error(
-                "Failed to record nickname change: {message}",
-                message=response.message,
+                "Exception occurred while recording nickname change: {error}",
+                error=str(error),
             )
+
+            # Send error embed to the configured channel or guild's system channel
+            channel = await self._get_error_notification_channel(after.guild)
+            if channel:
+                await send_error_embed(
+                    channel,
+                    error,
+                    "recording nickname change",
+                )
+
+    async def _get_error_notification_channel(
+        self, guild: discord.Guild
+    ) -> discord.abc.Messageable | None:
+        """Get the channel for error notifications.
+
+        Returns the configured error notification channel if set,
+        otherwise falls back to the guild's system channel.
+        """
+        channel_id = self._config.ERROR_NOTIFICATION_CHANNEL_ID
+        if channel_id is not None:
+            channel = self.get_channel(channel_id)
+            if channel is not None and isinstance(channel, discord.abc.Messageable):
+                return channel
+            # If channel not found in cache, try fetching it
+            try:
+                fetched_channel = await self.fetch_channel(channel_id)
+                if isinstance(fetched_channel, discord.abc.Messageable):
+                    return fetched_channel
+            except discord.DiscordException:
+                logfire.warning(
+                    "Failed to fetch error notification channel: {channel_id}",
+                    channel_id=channel_id,
+                )
+        return guild.system_channel
 
     def run_bot(self) -> None:
         """Run the Discord bot."""

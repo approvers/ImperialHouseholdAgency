@@ -10,6 +10,7 @@ from src.system.ui.discord.bot import DiscordBot
 def mock_config() -> MagicMock:
     config = MagicMock()
     config.DISCORD_TOKEN = "test_token"
+    config.ERROR_NOTIFICATION_CHANNEL_ID = None
     return config
 
 
@@ -183,37 +184,30 @@ class TestDiscordBotOnMemberUpdate:
         mock_usecase.execute = AsyncMock(side_effect=test_error)
 
         mock_system_channel = MagicMock()
-        mock_system_channel.send = AsyncMock()
         mock_after_member.guild.system_channel = mock_system_channel
 
         with (
             patch.object(DiscordBot, "__init__", lambda self, *args, **kwargs: None),
             patch("src.system.ui.discord.bot.logfire") as mock_logfire,
-            patch("src.system.ui.discord.bot.sentry_sdk") as mock_sentry,
-            patch("src.system.ui.discord.bot.trace") as mock_trace,
+            patch(
+                "src.system.ui.discord.bot.send_error_embed"
+            ) as mock_send_error_embed,
         ):
-            mock_sentry.capture_exception.return_value = "test-event-id"
-            mock_span_context = MagicMock()
-            mock_span_context.is_valid = True
-            mock_span_context.trace_id = 0x1234567890ABCDEF1234567890ABCDEF
-            mock_span = MagicMock()
-            mock_span.get_span_context.return_value = mock_span_context
-            mock_trace.get_current_span.return_value = mock_span
+            mock_send_error_embed.return_value = None
 
             bot = DiscordBot.__new__(DiscordBot)
             bot._config = mock_config
             bot._record_nickname_change_usecase = mock_usecase
+            bot.get_channel = MagicMock(return_value=None)
 
             await bot.on_member_update(mock_before_member, mock_after_member)
 
         mock_logfire.error.assert_called()
-        mock_sentry.capture_exception.assert_called_once_with(test_error)
-        mock_system_channel.send.assert_awaited_once()
-
-        # Verify the embed was sent with correct content
-        embed = mock_system_channel.send.call_args.kwargs["embed"]
-        assert embed.title == "Error Occurred"
-        assert "RuntimeError" in str(embed.fields[0].value)
+        mock_send_error_embed.assert_awaited_once_with(
+            mock_system_channel,
+            test_error,
+            "recording nickname change",
+        )
 
     @pytest.mark.asyncio
     async def test_on_member_update_exception_no_system_channel(
@@ -234,100 +228,110 @@ class TestDiscordBotOnMemberUpdate:
             bot = DiscordBot.__new__(DiscordBot)
             bot._config = mock_config
             bot._record_nickname_change_usecase = mock_usecase
+            bot.get_channel = MagicMock(return_value=None)
 
             await bot.on_member_update(mock_before_member, mock_after_member)
 
         mock_logfire.error.assert_called()
 
 
-class TestDiscordBotSendErrorEmbed:
+class TestDiscordBotGetErrorNotificationChannel:
     @pytest.mark.asyncio
-    async def test_send_error_embed_discord_exception_logs_error(
+    async def test_returns_configured_channel_from_cache(
         self,
         mock_config: MagicMock,
         mock_usecase: MagicMock,
     ) -> None:
         import discord
 
-        mock_channel = MagicMock()
-        mock_channel.send = AsyncMock(
-            side_effect=discord.DiscordException("Send failed")
-        )
+        mock_config.ERROR_NOTIFICATION_CHANNEL_ID = 123456789
+        mock_channel = MagicMock(spec=discord.abc.Messageable)
+        mock_guild = MagicMock()
+
+        with patch.object(DiscordBot, "__init__", lambda self, *args, **kwargs: None):
+            bot = DiscordBot.__new__(DiscordBot)
+            bot._config = mock_config
+            bot._record_nickname_change_usecase = mock_usecase
+            bot.get_channel = MagicMock(return_value=mock_channel)
+
+            result = await bot._get_error_notification_channel(mock_guild)
+
+        assert result == mock_channel
+        bot.get_channel.assert_called_once_with(123456789)
+
+    @pytest.mark.asyncio
+    async def test_fetches_channel_when_not_in_cache(
+        self,
+        mock_config: MagicMock,
+        mock_usecase: MagicMock,
+    ) -> None:
+        import discord
+
+        mock_config.ERROR_NOTIFICATION_CHANNEL_ID = 123456789
+        mock_channel = MagicMock(spec=discord.abc.Messageable)
+        mock_guild = MagicMock()
+
+        with patch.object(DiscordBot, "__init__", lambda self, *args, **kwargs: None):
+            bot = DiscordBot.__new__(DiscordBot)
+            bot._config = mock_config
+            bot._record_nickname_change_usecase = mock_usecase
+            bot.get_channel = MagicMock(return_value=None)
+            bot.fetch_channel = AsyncMock(return_value=mock_channel)
+
+            result = await bot._get_error_notification_channel(mock_guild)
+
+        assert result == mock_channel
+        bot.fetch_channel.assert_awaited_once_with(123456789)
+
+    @pytest.mark.asyncio
+    async def test_falls_back_to_system_channel_on_fetch_error(
+        self,
+        mock_config: MagicMock,
+        mock_usecase: MagicMock,
+    ) -> None:
+        import discord
+
+        mock_config.ERROR_NOTIFICATION_CHANNEL_ID = 123456789
+        mock_system_channel = MagicMock()
+        mock_guild = MagicMock()
+        mock_guild.system_channel = mock_system_channel
 
         with (
             patch.object(DiscordBot, "__init__", lambda self, *args, **kwargs: None),
             patch("src.system.ui.discord.bot.logfire") as mock_logfire,
-            patch("src.system.ui.discord.bot.sentry_sdk") as mock_sentry,
-            patch("src.system.ui.discord.bot.trace") as mock_trace,
         ):
-            mock_sentry.capture_exception.return_value = None
-            mock_span_context = MagicMock()
-            mock_span_context.is_valid = False
-            mock_span = MagicMock()
-            mock_span.get_span_context.return_value = mock_span_context
-            mock_trace.get_current_span.return_value = mock_span
-
             bot = DiscordBot.__new__(DiscordBot)
             bot._config = mock_config
             bot._record_nickname_change_usecase = mock_usecase
-
-            await bot._send_error_embed(
-                mock_channel,
-                RuntimeError("Test error"),
-                "testing",
+            bot.get_channel = MagicMock(return_value=None)
+            bot.fetch_channel = AsyncMock(
+                side_effect=discord.DiscordException("Channel not found")
             )
 
-        mock_logfire.error.assert_called_once()
-        assert "Failed to send error embed" in str(mock_logfire.error.call_args)
+            result = await bot._get_error_notification_channel(mock_guild)
 
+        assert result == mock_system_channel
+        mock_logfire.warning.assert_called_once()
 
-class TestDiscordBotGetTraceId:
-    def test_get_trace_id_valid_span(
+    @pytest.mark.asyncio
+    async def test_returns_system_channel_when_no_config(
         self,
         mock_config: MagicMock,
         mock_usecase: MagicMock,
     ) -> None:
-        with (
-            patch.object(DiscordBot, "__init__", lambda self, *args, **kwargs: None),
-            patch("src.system.ui.discord.bot.trace") as mock_trace,
-        ):
-            mock_span_context = MagicMock()
-            mock_span_context.is_valid = True
-            mock_span_context.trace_id = 0x1234567890ABCDEF1234567890ABCDEF
-            mock_span = MagicMock()
-            mock_span.get_span_context.return_value = mock_span_context
-            mock_trace.get_current_span.return_value = mock_span
+        mock_config.ERROR_NOTIFICATION_CHANNEL_ID = None
+        mock_system_channel = MagicMock()
+        mock_guild = MagicMock()
+        mock_guild.system_channel = mock_system_channel
 
+        with patch.object(DiscordBot, "__init__", lambda self, *args, **kwargs: None):
             bot = DiscordBot.__new__(DiscordBot)
             bot._config = mock_config
             bot._record_nickname_change_usecase = mock_usecase
 
-            trace_id = bot._get_trace_id()
+            result = await bot._get_error_notification_channel(mock_guild)
 
-        assert trace_id == "1234567890abcdef1234567890abcdef"
-
-    def test_get_trace_id_invalid_span(
-        self,
-        mock_config: MagicMock,
-        mock_usecase: MagicMock,
-    ) -> None:
-        with (
-            patch.object(DiscordBot, "__init__", lambda self, *args, **kwargs: None),
-            patch("src.system.ui.discord.bot.trace") as mock_trace,
-        ):
-            mock_span_context = MagicMock()
-            mock_span_context.is_valid = False
-            mock_span = MagicMock()
-            mock_span.get_span_context.return_value = mock_span_context
-            mock_trace.get_current_span.return_value = mock_span
-
-            bot = DiscordBot.__new__(DiscordBot)
-            bot._config = mock_config
-            bot._record_nickname_change_usecase = mock_usecase
-
-            trace_id = bot._get_trace_id()
-
-        assert trace_id is None
+        assert result == mock_system_channel
 
 
 class TestDiscordBotRunBot:
