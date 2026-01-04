@@ -123,6 +123,10 @@ ENV UV_PROJECT_ENVIRONMENT=${VENV_DIR} \
     PYTHONUNBUFFERED=1 \
     PYTHONFAULTHANDLER=1
 
+# Install make for development workflow
+RUN apt-get update && apt-get install -y --no-install-recommends make \
+    && rm -rf /var/lib/apt/lists/*
+
 # Copy uv binary from the dedicated source stage for version consistency
 COPY --from=uv_source /uv /uvx /bin/
 
