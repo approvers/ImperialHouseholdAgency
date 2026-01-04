@@ -13,7 +13,7 @@ class NicknameChangelogRepository(RepositoryBase):
     async def create(
         self, data: NicknameChangelog
     ) -> RepositoryResponse[NicknameChangelog | None]:
-        pass
+        pass  # pragma: no cover
 
     @abstractmethod
     async def get_by_user_record_id(
@@ -22,4 +22,4 @@ class NicknameChangelogRepository(RepositoryBase):
         sort_order: SortOrder,
         limit: int,
     ) -> RepositoryResponse[Iterable[NicknameChangelog]]:
-        pass
+        pass  # pragma: no cover

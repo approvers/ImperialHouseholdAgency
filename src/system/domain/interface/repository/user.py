@@ -9,18 +9,18 @@ from src.system.domain.value.user import UserRecordID, UserID, UserMessengerReco
 class UserRepository(RepositoryBase):
     @abstractmethod
     async def create(self, user: User) -> RepositoryResponse[User | None]:
-        pass
+        pass  # pragma: no cover
 
     @abstractmethod
     async def get(self, record_id: UserRecordID) -> RepositoryResponse[User | None]:
-        pass
+        pass  # pragma: no cover
 
     @abstractmethod
     async def get_by_user_id_and_messenger(
         self, user_id: UserID, messenger_record_id: UserMessengerRecordID
     ) -> RepositoryResponse[User | None]:
-        pass
+        pass  # pragma: no cover
 
     @abstractmethod
     async def get_or_create(self, user: User) -> RepositoryResponse[User | None]:
-        pass
+        pass  # pragma: no cover
