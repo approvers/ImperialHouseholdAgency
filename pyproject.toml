@@ -54,6 +54,9 @@ omit = [
     "*/__pycache__/*",
     "*/venv/*",
     "*/.venv/*",
+    # External service initialization modules (require actual external services)
+    "src/system/infrastructure/ext/logfire/init.py",
+    "src/system/infrastructure/ext/sentry/init.py",
 ]
 
 [tool.coverage.report]
