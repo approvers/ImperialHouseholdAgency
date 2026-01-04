@@ -21,5 +21,6 @@ class UserRepository(RepositoryBase):
     ) -> RepositoryResponse[User | None]:
         pass
 
+    @abstractmethod
     async def get_or_create(self, user: User) -> RepositoryResponse[User | None]:
         pass
