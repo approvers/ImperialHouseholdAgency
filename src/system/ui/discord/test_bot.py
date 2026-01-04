@@ -334,6 +334,88 @@ class TestDiscordBotGetErrorNotificationChannel:
         assert result == mock_system_channel
 
 
+class TestDiscordBotOnMessage:
+    @pytest.mark.asyncio
+    async def test_ignores_bot_messages(
+        self,
+        mock_config: MagicMock,
+        mock_usecase: MagicMock,
+    ) -> None:
+        mock_message = MagicMock()
+        mock_message.author.bot = True
+        mock_message.content = "!exception-test"
+
+        with (
+            patch.object(DiscordBot, "__init__", lambda self, *args, **kwargs: None),
+            patch(
+                "src.system.ui.discord.bot.send_error_embed"
+            ) as mock_send_error_embed,
+        ):
+            bot = DiscordBot.__new__(DiscordBot)
+            bot._config = mock_config
+            bot._record_nickname_change_usecase = mock_usecase
+
+            await bot.on_message(mock_message)
+
+        mock_send_error_embed.assert_not_awaited()
+
+    @pytest.mark.asyncio
+    async def test_exception_test_command_sends_error_embed(
+        self,
+        mock_config: MagicMock,
+        mock_usecase: MagicMock,
+    ) -> None:
+        mock_message = MagicMock()
+        mock_message.author.bot = False
+        mock_message.content = "!exception-test"
+        mock_channel = MagicMock()
+        mock_message.channel = mock_channel
+
+        with (
+            patch.object(DiscordBot, "__init__", lambda self, *args, **kwargs: None),
+            patch("src.system.ui.discord.bot.logfire") as mock_logfire,
+            patch(
+                "src.system.ui.discord.bot.send_error_embed"
+            ) as mock_send_error_embed,
+        ):
+            bot = DiscordBot.__new__(DiscordBot)
+            bot._config = mock_config
+            bot._record_nickname_change_usecase = mock_usecase
+
+            await bot.on_message(mock_message)
+
+        mock_logfire.error.assert_called_once()
+        mock_send_error_embed.assert_awaited_once()
+        call_args = mock_send_error_embed.call_args
+        assert call_args[0][0] == mock_channel
+        assert isinstance(call_args[0][1], RuntimeError)
+        assert call_args[0][2] == "processing test command"
+
+    @pytest.mark.asyncio
+    async def test_ignores_non_command_messages(
+        self,
+        mock_config: MagicMock,
+        mock_usecase: MagicMock,
+    ) -> None:
+        mock_message = MagicMock()
+        mock_message.author.bot = False
+        mock_message.content = "hello world"
+
+        with (
+            patch.object(DiscordBot, "__init__", lambda self, *args, **kwargs: None),
+            patch(
+                "src.system.ui.discord.bot.send_error_embed"
+            ) as mock_send_error_embed,
+        ):
+            bot = DiscordBot.__new__(DiscordBot)
+            bot._config = mock_config
+            bot._record_nickname_change_usecase = mock_usecase
+
+            await bot.on_message(mock_message)
+
+        mock_send_error_embed.assert_not_awaited()
+
+
 class TestDiscordBotRunBot:
     def test_run_bot_calls_run_with_token(
         self,

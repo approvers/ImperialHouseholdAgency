@@ -18,6 +18,7 @@ class DiscordBot(discord.Client):
     """Discord bot client that handles member update events."""
 
     _MESSENGER_NAME = "discord"
+    _EXCEPTION_TEST_COMMAND = "!exception-test"
 
     @inject
     def __init__(
@@ -27,11 +28,37 @@ class DiscordBot(discord.Client):
     ) -> None:
         intents = discord.Intents.default()
         intents.members = True
+        intents.message_content = True
 
         super().__init__(intents=intents)
 
         self._config = config
         self._record_nickname_change_usecase = record_nickname_change_usecase
+
+    @logfire.instrument(span_name="DiscordBot.on_message()")
+    async def on_message(self, message: discord.Message) -> None:
+        """Handle message events.
+
+        Responds to test commands for debugging purposes.
+        """
+        if message.author.bot:
+            return
+
+        if message.content == self._EXCEPTION_TEST_COMMAND:
+            try:
+                raise RuntimeError(
+                    "This is a test exception triggered by !exception-test"
+                )
+            except Exception as error:
+                logfire.error(
+                    "Test exception triggered: {error}",
+                    error=str(error),
+                )
+                await send_error_embed(
+                    message.channel,
+                    error,
+                    "processing test command",
+                )
 
     @logfire.instrument(span_name="DiscordBot.on_member_update()")
     async def on_member_update(
