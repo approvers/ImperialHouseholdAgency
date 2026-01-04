@@ -1,5 +1,6 @@
 from typing import Iterable
 
+import logfire
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import async_sessionmaker, AsyncSession
 
@@ -23,6 +24,7 @@ class SAMessengerRepository(MessengerRepository):
     def __init__(self, session_factory: async_sessionmaker[AsyncSession]) -> None:
         self.session_factory = session_factory
 
+    @logfire.instrument(span_name="SAMessengerRepository.create()")
     async def create(self, data: Messenger) -> RepositoryResponse[Messenger | None]:
         try:
             async with self.session_factory() as session:
@@ -49,6 +51,7 @@ class SAMessengerRepository(MessengerRepository):
                 message=f"Failed to create messenger: {str(e)}",
             )
 
+    @logfire.instrument(span_name="SAMessengerRepository.get_all()")
     async def get_all(self) -> RepositoryResponse[Iterable[Messenger]]:
         try:
             async with self.session_factory() as session:

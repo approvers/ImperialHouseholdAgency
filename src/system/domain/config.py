@@ -15,4 +15,4 @@ class DomainConfigIf(ConfigIf):
     @property
     @abstractmethod
     def ENVIRONMENT(self) -> EnvironmentEnum:
-        pass
+        pass  # pragma: no cover

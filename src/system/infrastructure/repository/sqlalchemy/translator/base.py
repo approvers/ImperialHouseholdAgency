@@ -13,9 +13,9 @@ class BaseSADomainTranslator[DomainT, SAModelT](Interface):
     @staticmethod
     @abstractmethod
     def to_domain(db_record: SAModelT) -> DomainT:
-        pass
+        pass  # pragma: no cover
 
     @staticmethod
     @abstractmethod
     def to_db_record(domain_model: DomainT) -> SAModelT:
-        pass
+        pass  # pragma: no cover

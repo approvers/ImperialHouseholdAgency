@@ -2,7 +2,7 @@ from injector import SingletonScope
 
 from config import get_config_for_current_env
 from src.common.di.builder import ModuleBase, BindEntry
-from src.system.infrastructure.sentry.config import SentryConfigIf
+from src.system.infrastructure.ext.sentry.config import SentryConfigIf
 
 
 class PydanticSentryConfigModule(ModuleBase):

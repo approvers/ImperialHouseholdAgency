@@ -7,9 +7,9 @@ class SentryConfigIf(ConfigIf):
     @property
     @abstractmethod
     def SENTRY_DSN(self) -> str:
-        pass
+        pass  # pragma: no cover
 
     @property
     @abstractmethod
     def SENTRY_ENV(self) -> str:
-        pass
+        pass  # pragma: no cover

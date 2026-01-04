@@ -9,8 +9,8 @@ from src.system.domain.model.messenger import Messenger
 class MessengerRepository(RepositoryBase):
     @abstractmethod
     async def create(self, data: Messenger) -> RepositoryResponse[Messenger | None]:
-        pass
+        pass  # pragma: no cover
 
     @abstractmethod
     async def get_all(self) -> RepositoryResponse[Iterable[Messenger]]:
-        pass
+        pass  # pragma: no cover

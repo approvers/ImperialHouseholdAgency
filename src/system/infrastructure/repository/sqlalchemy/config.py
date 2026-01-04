@@ -8,4 +8,4 @@ class SQLAlchemyConfigIf(ConfigIf):
     @property
     @abstractmethod
     def DATABASE_URL(self) -> str:
-        pass
+        pass  # pragma: no cover

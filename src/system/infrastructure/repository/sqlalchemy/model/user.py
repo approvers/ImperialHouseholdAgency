@@ -12,7 +12,7 @@ from src.system.infrastructure.repository.sqlalchemy.model.base import (
 )
 from src.system.infrastructure.repository.sqlalchemy.type.ulid import ULIDColumn
 
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # pragma: no cover
     # noinspection PyUnusedImports
     from src.system.infrastructure.repository.sqlalchemy.model.messenger import (
         Messenger,
