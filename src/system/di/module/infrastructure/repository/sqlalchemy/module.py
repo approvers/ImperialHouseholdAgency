@@ -31,7 +31,7 @@ class SARepositoryModule(Module):
 
     def configure(self, binder: Binder) -> None:
         binder.bind(
-            interface=MessengerRepository,
+            interface=MessengerRepository,  # type: ignore[type-abstract]
             to=SAMessengerRepository,
             scope=singleton,
         )
