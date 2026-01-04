@@ -8,4 +8,4 @@ class DiscordConfigIf(ConfigIf):
     @property
     @abstractmethod
     def DISCORD_TOKEN(self) -> str:
-        pass
+        pass  # pragma: no cover
