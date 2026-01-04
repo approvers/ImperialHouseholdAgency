@@ -3,7 +3,7 @@ from typing import Final, Iterable
 from injector import Injector, Module
 
 from src.system.di.module.domain.config.pydantic import PydanticDomainConfigModule
-from src.system.di.module.infrastructure.logfire.config.pydantic import (
+from src.system.di.module.infrastructure.ext.logfire.config.pydantic import (
     PydanticLogfireConfigModule,
 )
 from src.system.di.module.infrastructure.repository.sqlalchemy.config.pydantic import (
@@ -12,7 +12,7 @@ from src.system.di.module.infrastructure.repository.sqlalchemy.config.pydantic i
 from src.system.di.module.infrastructure.repository.sqlalchemy.module import (
     SARepositoryModule,
 )
-from src.system.di.module.infrastructure.sentry.config.pydantic import (
+from src.system.di.module.infrastructure.ext.sentry.config.pydantic import (
     PydanticSentryConfigModule,
 )
 from src.system.di.module.ui.discord.config.pydantic import PydanticDiscordConfigModule
