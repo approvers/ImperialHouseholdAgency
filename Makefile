@@ -51,7 +51,7 @@ lint_check:
 
 .PHONY: type_check
 type_check:
-	uv run ty check
+	uv run ty check .
 
 .PHONY: test
 test:
