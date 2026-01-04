@@ -1,6 +1,7 @@
 from typing import Iterable
 
 import logfire
+from injector import inject
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import async_sessionmaker, AsyncSession
 
@@ -23,6 +24,7 @@ from src.system.infrastructure.repository.sqlalchemy.translator.nickname import 
 
 
 class SANicknameChangelogRepository(NicknameChangelogRepository):
+    @inject
     def __init__(self, session_factory: async_sessionmaker[AsyncSession]) -> None:
         self.session_factory = session_factory
 
