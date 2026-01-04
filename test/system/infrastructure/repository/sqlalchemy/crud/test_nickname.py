@@ -78,6 +78,7 @@ class TestSANicknameChangelogRepositoryCreate:
         mock_session = AsyncMock()
         mock_session.add = MagicMock()
         mock_session.commit = AsyncMock()
+
         def refresh_side_effect(obj: Any) -> None:
             obj.record_id = test_ulid
             obj.created_at = test_datetime
