@@ -3,7 +3,10 @@ from unittest.mock import AsyncMock, MagicMock, patch
 import discord
 import pytest
 
-from src.system.ui.discord.error_handler import send_error_embed
+from src.system.ui.discord.error_handler import (
+    _ERROR_THUMBNAIL_URL,
+    send_error_embed,
+)
 
 
 class TestSendErrorEmbed:
@@ -30,6 +33,7 @@ class TestSendErrorEmbed:
         embed = mock_channel.send.call_args.kwargs["embed"]
         assert embed.title == "Error Occurred"
         assert "testing" in embed.description
+        assert embed.thumbnail.url == _ERROR_THUMBNAIL_URL
         assert embed.fields[0].value == "RuntimeError"
         assert embed.fields[1].value == "Test exception message"
         assert embed.fields[2].value == "test-event-id"

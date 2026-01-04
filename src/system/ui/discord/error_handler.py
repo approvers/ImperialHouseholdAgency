@@ -4,6 +4,8 @@ import sentry_sdk
 
 from src.system.infrastructure.ext.logfire.trace import get_current_trace_id
 
+_ERROR_THUMBNAIL_URL = "https://upload.wikimedia.org/wikipedia/commons/5/5f/Red_X.svg"
+
 
 async def send_error_embed(
     channel: discord.abc.Messageable,
@@ -31,6 +33,7 @@ async def send_error_embed(
         description=f"An error occurred while {context}.",
         color=discord.Color.red(),
     )
+    embed.set_thumbnail(url=_ERROR_THUMBNAIL_URL)
     embed.add_field(name="Error Type", value=type(error).__name__, inline=True)
     embed.add_field(name="Error Message", value=str(error)[:1024], inline=False)
 
