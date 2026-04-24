@@ -111,7 +111,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 # - Modifying system configurations for development purposes
 # - Running development servers that may need privileged ports
 # For production workloads, use the 'runner' stage which runs as nonroot.
-FROM ubuntu:24.04 AS developer
+FROM ubuntu:26.04 AS developer
 
 # Inherit global ARGs
 ARG PYTHON_BIN_PATH
