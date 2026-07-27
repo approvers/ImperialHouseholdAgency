@@ -1,6 +1,6 @@
 import dataclasses
 from abc import ABC
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 from injector import Module
 
@@ -18,7 +18,7 @@ class BindEntry[InterfaceT: ABC]:
 
 
 class ModuleBase(Module):
-    _BINDINGS: "Iterable[BindEntry[ABC]]"
+    _BINDINGS: ClassVar["Iterable[BindEntry[ABC]]"]
 
     def configure(self, binder: "Binder") -> None:
         for entry in self._BINDINGS:
