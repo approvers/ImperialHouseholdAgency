@@ -68,8 +68,12 @@ def run_migrations_online() -> None:
     from sqlalchemy import create_engine
 
     database_url = os.getenv("DATABASE_URL")
+
+    if database_url is None:
+        raise RuntimeError("DATABASE_URL is not set")
+
     # Convert asyncpg URL to psycopg2 for synchronous migrations
-    if database_url and "asyncpg" in database_url:
+    if "asyncpg" in database_url:
         database_url = database_url.replace("postgresql+asyncpg://", "postgresql://")
         database_url = database_url.replace("asyncpg://", "postgresql://")
     connectable = create_engine(database_url)
