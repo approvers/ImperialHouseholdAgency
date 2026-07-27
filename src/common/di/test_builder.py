@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import ClassVar
 from unittest.mock import MagicMock
 
 from injector import Binder, singleton
@@ -43,7 +44,7 @@ class TestBindEntry:
 class TestModuleBase:
     def test_configure_binds_all_entries(self) -> None:
         class TestModule(ModuleBase):
-            _BINDINGS = [
+            _BINDINGS: ClassVar = [
                 BindEntry(
                     interface=MockInterface,
                     to=MockImplementation,
@@ -73,7 +74,7 @@ class TestModuleBase:
                 return 42
 
         class TestModule(ModuleBase):
-            _BINDINGS = [
+            _BINDINGS: ClassVar = [
                 BindEntry(
                     interface=MockInterface,
                     to=MockImplementation,

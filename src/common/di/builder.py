@@ -1,27 +1,24 @@
 import dataclasses
-from typing import TYPE_CHECKING, Generic, TypeVar
+from abc import ABC
+from typing import TYPE_CHECKING, ClassVar
 
 from injector import Module
 
 if TYPE_CHECKING:  # pragma: no cover
-    from typing import Union, Iterable
-    from abc import ABC
+    from collections.abc import Iterable
 
-    from injector import Scope, ScopeDecorator, Binder
-
-
-InterfaceT = TypeVar("InterfaceT", bound="ABC")
+    from injector import Binder, Scope, ScopeDecorator
 
 
 @dataclasses.dataclass
-class BindEntry(Generic[InterfaceT]):
+class BindEntry[InterfaceT: ABC]:
     interface: type[InterfaceT]
     to: type[InterfaceT] | InterfaceT
-    scope: "Union[None, type['Scope'], 'ScopeDecorator']" = None
+    scope: "None | type['Scope'] | 'ScopeDecorator'" = None
 
 
 class ModuleBase(Module):
-    _BINDINGS: "Iterable[BindEntry[ABC]]"
+    _BINDINGS: ClassVar["Iterable[BindEntry[ABC]]"]
 
     def configure(self, binder: "Binder") -> None:
         for entry in self._BINDINGS:

@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 import pytest
@@ -8,11 +8,11 @@ from src.system.domain.model.nickname import (
     NicknameChangelog as DomainNicknameChangelog,
 )
 from src.system.domain.value.nickname import (
-    NicknameChangelogRecordID,
-    NicknameChangelogCreatedAt,
-    NicknameChangelogUserRecordID,
-    NicknameChangelogBefore,
     NicknameChangelogAfter,
+    NicknameChangelogBefore,
+    NicknameChangelogCreatedAt,
+    NicknameChangelogRecordID,
+    NicknameChangelogUserRecordID,
 )
 from src.system.infrastructure.repository.sqlalchemy.model.all import load_all_sa_models
 from src.system.infrastructure.repository.sqlalchemy.model.nickname import (
@@ -31,7 +31,7 @@ def test_ulid() -> ULID:
 
 @pytest.fixture
 def test_datetime() -> datetime:
-    return datetime(2023, 1, 1, 12, 0, 0)
+    return datetime(2023, 1, 1, 12, 0, 0, tzinfo=UTC)
 
 
 @pytest.fixture

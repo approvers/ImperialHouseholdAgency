@@ -1,37 +1,37 @@
-from datetime import datetime
+from datetime import UTC, datetime
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 from ulid import ULID
 
 from src.system.domain.interface.repository.common.response import (
-    RepositoryResponse,
-    RepositoryResultStatusEnum,
-    RepositoryResponseStatusEnum,
     RepositoryFailedResponseEnum,
+    RepositoryResponse,
+    RepositoryResponseStatusEnum,
+    RepositoryResultStatusEnum,
 )
 from src.system.domain.model.messenger import Messenger
 from src.system.domain.model.nickname import NicknameChangelog
 from src.system.domain.model.user import User
 from src.system.domain.value.messenger import (
-    MessengerRecordID,
     MessengerCreatedAt,
-    MessengerUpdatedAt,
     MessengerName,
+    MessengerRecordID,
+    MessengerUpdatedAt,
 )
 from src.system.domain.value.nickname import (
-    NicknameChangelogRecordID,
-    NicknameChangelogCreatedAt,
-    NicknameChangelogUserRecordID,
-    NicknameChangelogBefore,
     NicknameChangelogAfter,
+    NicknameChangelogBefore,
+    NicknameChangelogCreatedAt,
+    NicknameChangelogRecordID,
+    NicknameChangelogUserRecordID,
 )
 from src.system.domain.value.user import (
-    UserRecordID,
     UserCreatedAt,
-    UserUpdatedAt,
-    UserMessengerRecordID,
     UserID,
+    UserMessengerRecordID,
+    UserRecordID,
+    UserUpdatedAt,
 )
 from src.system.usecase.nickname.dto import RecordNicknameChangeRequest
 from src.system.usecase.nickname.record_nickname_change import (
@@ -47,7 +47,7 @@ def test_ulid() -> ULID:
 
 @pytest.fixture
 def test_datetime() -> datetime:
-    return datetime(2023, 1, 1, 12, 0, 0)
+    return datetime(2023, 1, 1, 12, 0, 0, tzinfo=UTC)
 
 
 @pytest.fixture
@@ -144,7 +144,9 @@ class TestRecordNicknameChangeUsecaseExecute:
                 "src.system.usecase.nickname.record_nickname_change.generate_ulid"
             ) as mock_generate_ulid,
         ):
-            mock_utcnow.return_value = datetime(2023, 1, 1, 12, 0, 0)
+            mock_utcnow.return_value = datetime(
+                2023, 1, 1, 12, 0, 0, tzinfo=UTC
+            )
             mock_generate_ulid.return_value = generate_ulid()
 
             result = await usecase.execute(request_dto)
@@ -257,7 +259,9 @@ class TestRecordNicknameChangeUsecaseExecute:
                 "src.system.usecase.nickname.record_nickname_change.generate_ulid"
             ) as mock_generate_ulid,
         ):
-            mock_utcnow.return_value = datetime(2023, 1, 1, 12, 0, 0)
+            mock_utcnow.return_value = datetime(
+                2023, 1, 1, 12, 0, 0, tzinfo=UTC
+            )
             mock_generate_ulid.return_value = generate_ulid()
 
             result = await usecase.execute(request_dto)
@@ -305,7 +309,9 @@ class TestRecordNicknameChangeUsecaseExecute:
                 "src.system.usecase.nickname.record_nickname_change.generate_ulid"
             ) as mock_generate_ulid,
         ):
-            mock_utcnow.return_value = datetime(2023, 1, 1, 12, 0, 0)
+            mock_utcnow.return_value = datetime(
+                2023, 1, 1, 12, 0, 0, tzinfo=UTC
+            )
             mock_generate_ulid.return_value = generate_ulid()
 
             result = await usecase.execute(request_dto)
@@ -363,7 +369,9 @@ class TestRecordNicknameChangeUsecaseExecute:
                 "src.system.usecase.nickname.record_nickname_change.generate_ulid"
             ) as mock_generate_ulid,
         ):
-            mock_utcnow.return_value = datetime(2023, 1, 1, 12, 0, 0)
+            mock_utcnow.return_value = datetime(
+                2023, 1, 1, 12, 0, 0, tzinfo=UTC
+            )
             mock_generate_ulid.return_value = generate_ulid()
 
             result = await usecase.execute(request_dto)

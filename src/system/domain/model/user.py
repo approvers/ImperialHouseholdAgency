@@ -1,10 +1,10 @@
 from src.system.domain.model.base import DomainModelBase
 from src.system.domain.value.user import (
-    UserRecordID,
     UserCreatedAt,
-    UserUpdatedAt,
     UserID,
     UserMessengerRecordID,
+    UserRecordID,
+    UserUpdatedAt,
 )
 
 

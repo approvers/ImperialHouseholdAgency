@@ -1,21 +1,22 @@
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest
+from sqlalchemy.exc import SQLAlchemyError
 from ulid import ULID
 
 from src.system.domain.interface.repository.common.response import (
-    RepositoryResultStatusEnum,
-    RepositoryResponseStatusEnum,
     RepositoryFailedResponseEnum,
+    RepositoryResponseStatusEnum,
+    RepositoryResultStatusEnum,
 )
 from src.system.domain.model.messenger import Messenger
 from src.system.domain.value.messenger import (
-    MessengerRecordID,
     MessengerCreatedAt,
-    MessengerUpdatedAt,
     MessengerName,
+    MessengerRecordID,
+    MessengerUpdatedAt,
 )
 from src.system.infrastructure.repository.sqlalchemy.crud.messenger import (
     SAMessengerRepository,
@@ -30,7 +31,7 @@ def test_ulid() -> ULID:
 
 @pytest.fixture
 def test_datetime() -> datetime:
-    return datetime(2023, 1, 1, 12, 0, 0)
+    return datetime(2023, 1, 1, 12, 0, 0, tzinfo=UTC)
 
 
 @pytest.fixture
@@ -93,7 +94,7 @@ class TestSAMessengerRepositoryCreate:
     @pytest.mark.asyncio
     async def test_create_failure(self, domain_messenger: Messenger) -> None:
         mock_session = AsyncMock()
-        mock_session.add = MagicMock(side_effect=Exception("Database error"))
+        mock_session.add = MagicMock(side_effect=SQLAlchemyError("Database error"))
 
         mock_session_factory = MagicMock()
         mock_session_factory.return_value.__aenter__ = AsyncMock(
@@ -157,7 +158,7 @@ class TestSAMessengerRepositoryGetAll:
     @pytest.mark.asyncio
     async def test_get_all_failure(self) -> None:
         mock_session = AsyncMock()
-        mock_session.execute = AsyncMock(side_effect=Exception("Database error"))
+        mock_session.execute = AsyncMock(side_effect=SQLAlchemyError("Database error"))
 
         mock_session_factory = MagicMock()
         mock_session_factory.return_value.__aenter__ = AsyncMock(
@@ -223,7 +224,7 @@ class TestSAMessengerRepositoryGetByName:
     @pytest.mark.asyncio
     async def test_get_by_name_failure(self) -> None:
         mock_session = AsyncMock()
-        mock_session.execute = AsyncMock(side_effect=Exception("Database error"))
+        mock_session.execute = AsyncMock(side_effect=SQLAlchemyError("Database error"))
 
         mock_session_factory = MagicMock()
         mock_session_factory.return_value.__aenter__ = AsyncMock(

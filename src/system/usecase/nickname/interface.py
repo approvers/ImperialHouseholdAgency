@@ -10,4 +10,3 @@ class RecordNicknameChangeUsecaseIf(
 ):
     """Interface for the use case that records nickname changes."""
 
-    pass

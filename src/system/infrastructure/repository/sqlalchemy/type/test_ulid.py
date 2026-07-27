@@ -1,4 +1,4 @@
-from sqlalchemy import String, Dialect
+from sqlalchemy import Dialect, String
 from ulid import ULID
 
 from src.system.infrastructure.repository.sqlalchemy.type.ulid import ULIDColumn

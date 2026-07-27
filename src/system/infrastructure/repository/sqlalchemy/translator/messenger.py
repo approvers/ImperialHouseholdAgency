@@ -11,10 +11,10 @@ class SAMessengerTranslator(BaseSADomainTranslator[DomainMessenger, SAMessenger]
     @staticmethod
     def to_domain(db_record: SAMessenger) -> DomainMessenger:
         from src.system.domain.value.messenger import (
-            MessengerRecordID,
             MessengerCreatedAt,
-            MessengerUpdatedAt,
             MessengerName,
+            MessengerRecordID,
+            MessengerUpdatedAt,
         )
 
         result = DomainMessenger(
