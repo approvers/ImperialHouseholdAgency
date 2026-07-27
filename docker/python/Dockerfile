@@ -57,7 +57,7 @@ FROM ghcr.io/astral-sh/uv:${UV_VERSION} AS uv_source
 # Base builder: installs Python, creates venv, installs production dependencies
 # NOTE: Source code is NOT copied here to maximize cache efficiency
 # Uses debian-based uv image for build tools required during dependency installation
-FROM ghcr.io/astral-sh/uv:${UV_VERSION}-bookworm-slim AS base_builder
+FROM ghcr.io/astral-sh/uv:${UV_VERSION}-debian-slim AS base_builder
 
 # Inherit global ARGs
 ARG PYTHON_VERSION
