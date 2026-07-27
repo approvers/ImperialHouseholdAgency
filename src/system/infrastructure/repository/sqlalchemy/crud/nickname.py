@@ -2,7 +2,8 @@ from collections.abc import Iterable
 
 import logfire
 from injector import inject
-from sqlalchemy import SQLAlchemyError, select
+from sqlalchemy import select
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from src.system.domain.interface.repository.common.option import SortOrder
