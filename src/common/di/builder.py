@@ -1,20 +1,17 @@
 import dataclasses
-from typing import TYPE_CHECKING, Generic, TypeVar
+from abc import ABC
+from typing import TYPE_CHECKING
 
 from injector import Module
 
 if TYPE_CHECKING:  # pragma: no cover
-    from abc import ABC
     from collections.abc import Iterable
 
     from injector import Binder, Scope, ScopeDecorator
 
 
-InterfaceT = TypeVar("InterfaceT", bound="ABC")
-
-
 @dataclasses.dataclass
-class BindEntry(Generic[InterfaceT]):
+class BindEntry[InterfaceT: ABC]:
     interface: type[InterfaceT]
     to: type[InterfaceT] | InterfaceT
     scope: "None | type['Scope'] | 'ScopeDecorator'" = None
