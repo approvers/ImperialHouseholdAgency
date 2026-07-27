@@ -40,10 +40,17 @@ class BaseConfig(
 
     # Discord
     discord_token: str = Field(alias="DISCORD_TOKEN")
+    error_notification_channel_id: int | None = Field(
+        default=None, alias="ERROR_NOTIFICATION_CHANNEL_ID"
+    )
 
     @property
     def DISCORD_TOKEN(self) -> str:
         return self.discord_token
+
+    @property
+    def ERROR_NOTIFICATION_CHANNEL_ID(self) -> int | None:
+        return self.error_notification_channel_id
 
     # Sentry
     sentry_dsn: HttpUrl = Field(
