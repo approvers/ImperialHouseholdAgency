@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import UTC, datetime
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
@@ -47,7 +47,7 @@ def test_ulid() -> ULID:
 
 @pytest.fixture
 def test_datetime() -> datetime:
-    return datetime(2023, 1, 1, 12, 0, 0)
+    return datetime(2023, 1, 1, 12, 0, 0, tzinfo=UTC)
 
 
 @pytest.fixture
@@ -144,7 +144,9 @@ class TestRecordNicknameChangeUsecaseExecute:
                 "src.system.usecase.nickname.record_nickname_change.generate_ulid"
             ) as mock_generate_ulid,
         ):
-            mock_utcnow.return_value = datetime(2023, 1, 1, 12, 0, 0)
+            mock_utcnow.return_value = datetime(
+                2023, 1, 1, 12, 0, 0, tzinfo=UTC
+            )
             mock_generate_ulid.return_value = generate_ulid()
 
             result = await usecase.execute(request_dto)
@@ -257,7 +259,9 @@ class TestRecordNicknameChangeUsecaseExecute:
                 "src.system.usecase.nickname.record_nickname_change.generate_ulid"
             ) as mock_generate_ulid,
         ):
-            mock_utcnow.return_value = datetime(2023, 1, 1, 12, 0, 0)
+            mock_utcnow.return_value = datetime(
+                2023, 1, 1, 12, 0, 0, tzinfo=UTC
+            )
             mock_generate_ulid.return_value = generate_ulid()
 
             result = await usecase.execute(request_dto)
@@ -305,7 +309,9 @@ class TestRecordNicknameChangeUsecaseExecute:
                 "src.system.usecase.nickname.record_nickname_change.generate_ulid"
             ) as mock_generate_ulid,
         ):
-            mock_utcnow.return_value = datetime(2023, 1, 1, 12, 0, 0)
+            mock_utcnow.return_value = datetime(
+                2023, 1, 1, 12, 0, 0, tzinfo=UTC
+            )
             mock_generate_ulid.return_value = generate_ulid()
 
             result = await usecase.execute(request_dto)
@@ -363,7 +369,9 @@ class TestRecordNicknameChangeUsecaseExecute:
                 "src.system.usecase.nickname.record_nickname_change.generate_ulid"
             ) as mock_generate_ulid,
         ):
-            mock_utcnow.return_value = datetime(2023, 1, 1, 12, 0, 0)
+            mock_utcnow.return_value = datetime(
+                2023, 1, 1, 12, 0, 0, tzinfo=UTC
+            )
             mock_generate_ulid.return_value = generate_ulid()
 
             result = await usecase.execute(request_dto)
