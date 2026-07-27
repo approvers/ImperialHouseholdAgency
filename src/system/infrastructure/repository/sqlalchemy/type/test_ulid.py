@@ -13,7 +13,7 @@ def test_ulid_column_init() -> None:
 
 def test_process_bind_param_with_ulid(sample_ulid: ULID, dialect: Dialect) -> None:
     column = ULIDColumn()
-    result = column.process_bind_param(sample_ulid, dialect)  # type: ignore[arg-type]
+    result = column.process_bind_param(sample_ulid, dialect)
 
     assert result == str(sample_ulid)
     assert isinstance(result, str)
@@ -21,7 +21,7 @@ def test_process_bind_param_with_ulid(sample_ulid: ULID, dialect: Dialect) -> No
 
 def test_process_bind_param_with_none(dialect: Dialect) -> None:
     column = ULIDColumn()
-    result = column.process_bind_param(None, dialect)  # type: ignore[arg-type]
+    result = column.process_bind_param(None, dialect)
 
     assert result is None
 
@@ -30,7 +30,7 @@ def test_process_result_value_with_string(
     sample_ulid_str: str, dialect: Dialect
 ) -> None:
     column = ULIDColumn()
-    result = column.process_result_value(sample_ulid_str, dialect)  # type: ignore[arg-type]
+    result = column.process_result_value(sample_ulid_str, dialect)
 
     assert isinstance(result, ULID)
     assert str(result) == sample_ulid_str
@@ -38,7 +38,7 @@ def test_process_result_value_with_string(
 
 def test_process_result_value_with_none(dialect: Dialect) -> None:
     column = ULIDColumn()
-    result = column.process_result_value(None, dialect)  # type: ignore[arg-type]
+    result = column.process_result_value(None, dialect)
 
     assert result is None
 
