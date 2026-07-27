@@ -42,7 +42,7 @@ ARG PYTHON_VERSION=3.13
 # uv version - uses distroless uv image with {major}.{minor} format
 # This automatically uses the latest patch version within the specified minor version
 # See: https://docs.astral.sh/uv/guides/integration/docker/
-ARG UV_VERSION=0.9
+ARG UV_VERSION=0.11
 
 ARG PYTHON_BIN_PATH=/opt/python
 ARG VENV_DIR=/opt/venv
@@ -57,7 +57,7 @@ FROM ghcr.io/astral-sh/uv:${UV_VERSION} AS uv_source
 # Base builder: installs Python, creates venv, installs production dependencies
 # NOTE: Source code is NOT copied here to maximize cache efficiency
 # Uses debian-based uv image for build tools required during dependency installation
-FROM ghcr.io/astral-sh/uv:${UV_VERSION}-bookworm-slim AS base_builder
+FROM ghcr.io/astral-sh/uv:${UV_VERSION}-debian-slim AS base_builder
 
 # Inherit global ARGs
 ARG PYTHON_VERSION
@@ -111,7 +111,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 # - Modifying system configurations for development purposes
 # - Running development servers that may need privileged ports
 # For production workloads, use the 'runner' stage which runs as nonroot.
-FROM ubuntu:24.04 AS developer
+FROM ubuntu:26.04 AS developer
 
 # Inherit global ARGs
 ARG PYTHON_BIN_PATH

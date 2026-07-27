@@ -2,8 +2,8 @@ from pydantic import Field
 
 from src.system.domain.value.messenger import MessengerName
 from src.system.domain.value.nickname import (
-    NicknameChangelogBefore,
     NicknameChangelogAfter,
+    NicknameChangelogBefore,
 )
 from src.system.domain.value.user import UserID
 from src.system.usecase.base.dto import UsecaseRequest, UsecaseResponse

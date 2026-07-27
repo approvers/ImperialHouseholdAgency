@@ -1,4 +1,4 @@
-from typing import Any, List
+from typing import Any
 
 import pytest
 from pydantic import ValidationError
@@ -90,7 +90,7 @@ class TestRepositoryResponse:
             MockDomainModel(name="test1", value=1),
             MockDomainModel(name="test2", value=2),
         ]
-        response = RepositoryResponse[List[MockDomainModel]](
+        response = RepositoryResponse[list[MockDomainModel]](
             response=models,
             is_success=RepositoryResultStatusEnum.SUCCESS,
             status=RepositoryResponseStatusEnum.READ,

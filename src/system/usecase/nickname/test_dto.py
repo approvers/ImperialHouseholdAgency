@@ -1,7 +1,7 @@
 from src.system.domain.value.messenger import MessengerName
 from src.system.domain.value.nickname import (
-    NicknameChangelogBefore,
     NicknameChangelogAfter,
+    NicknameChangelogBefore,
 )
 from src.system.domain.value.user import UserID
 from src.system.usecase.nickname.dto import (

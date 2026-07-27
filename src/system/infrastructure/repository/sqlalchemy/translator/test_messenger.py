@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 import pytest
@@ -6,10 +6,10 @@ from ulid import ULID
 
 from src.system.domain.model.messenger import Messenger as DomainMessenger
 from src.system.domain.value.messenger import (
-    MessengerRecordID,
     MessengerCreatedAt,
-    MessengerUpdatedAt,
     MessengerName,
+    MessengerRecordID,
+    MessengerUpdatedAt,
 )
 from src.system.infrastructure.repository.sqlalchemy.model.all import load_all_sa_models
 from src.system.infrastructure.repository.sqlalchemy.model.messenger import (
@@ -28,7 +28,7 @@ def test_ulid() -> ULID:
 
 @pytest.fixture
 def test_datetime() -> datetime:
-    return datetime(2023, 1, 1, 12, 0, 0)
+    return datetime(2023, 1, 1, 12, 0, 0, tzinfo=UTC)
 
 
 @pytest.fixture

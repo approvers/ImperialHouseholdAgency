@@ -1,10 +1,10 @@
 from src.system.domain.model.base import DomainModelBase
 from src.system.domain.value.nickname import (
-    NicknameChangelogRecordID,
-    NicknameChangelogCreatedAt,
-    NicknameChangelogUserRecordID,
-    NicknameChangelogBefore,
     NicknameChangelogAfter,
+    NicknameChangelogBefore,
+    NicknameChangelogCreatedAt,
+    NicknameChangelogRecordID,
+    NicknameChangelogUserRecordID,
 )
 
 

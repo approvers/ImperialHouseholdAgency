@@ -2,8 +2,8 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from src.system.usecase.nickname.dto import RecordNicknameChangeResponse
 from src.system.ui.discord.bot import DiscordBot
+from src.system.usecase.nickname.dto import RecordNicknameChangeResponse
 
 
 @pytest.fixture

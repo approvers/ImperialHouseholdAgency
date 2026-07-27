@@ -1,7 +1,7 @@
 from typing import TypeVar
-from ulid import ULID
 
-from pydantic import RootModel, Field
+from pydantic import Field, RootModel
+from ulid import ULID
 
 from src.common.interface import Interface
 from src.system.util.id import generate_ulid

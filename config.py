@@ -7,8 +7,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from src.system.domain.config import DomainConfigIf, EnvironmentEnum
 from src.system.infrastructure.ext.logfire.config import LogfireConfigIf
-from src.system.infrastructure.repository.sqlalchemy.config import SQLAlchemyConfigIf
 from src.system.infrastructure.ext.sentry.config import SentryConfigIf
+from src.system.infrastructure.repository.sqlalchemy.config import SQLAlchemyConfigIf
 from src.system.ui.discord.config import DiscordConfigIf
 
 
@@ -107,13 +107,13 @@ class ProductionConfig(BaseConfig):
 def get_config(environment: EnvironmentEnum) -> BaseConfig:
     match environment:
         case EnvironmentEnum.TEST:
-            return TestConfig()  # type: ignore
+            return TestConfig()
 
         case EnvironmentEnum.DEVELOPMENT:
-            return DevelopConfig()  # type: ignore
+            return DevelopConfig()
 
         case EnvironmentEnum.PRODUCTION:
-            return ProductionConfig()  # type: ignore
+            return ProductionConfig()
 
 
 def get_config_for_current_env() -> BaseConfig:

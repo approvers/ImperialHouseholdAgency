@@ -1,4 +1,5 @@
-from typing import Final, Iterable
+from collections.abc import Iterable
+from typing import Final
 
 from injector import Injector, Module
 
@@ -6,14 +7,14 @@ from src.system.di.module.domain.config.pydantic import PydanticDomainConfigModu
 from src.system.di.module.infrastructure.ext.logfire.config.pydantic import (
     PydanticLogfireConfigModule,
 )
+from src.system.di.module.infrastructure.ext.sentry.config.pydantic import (
+    PydanticSentryConfigModule,
+)
 from src.system.di.module.infrastructure.repository.sqlalchemy.config.pydantic import (
     PydanticSQLAlchemyConfigModule,
 )
 from src.system.di.module.infrastructure.repository.sqlalchemy.module import (
     SARepositoryModule,
-)
-from src.system.di.module.infrastructure.ext.sentry.config.pydantic import (
-    PydanticSentryConfigModule,
 )
 from src.system.di.module.ui.discord.bot.module import DiscordBotModule
 from src.system.di.module.ui.discord.config.pydantic import PydanticDiscordConfigModule
