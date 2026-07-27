@@ -100,13 +100,13 @@ class ProductionConfig(BaseConfig):
 def get_config(environment: EnvironmentEnum) -> BaseConfig:
     match environment:
         case EnvironmentEnum.TEST:
-            return TestConfig()  # ty: ignore[missing-argument]
+            return TestConfig()
 
         case EnvironmentEnum.DEVELOPMENT:
-            return DevelopConfig()  # ty: ignore[missing-argument]
+            return DevelopConfig()
 
         case EnvironmentEnum.PRODUCTION:
-            return ProductionConfig()  # ty: ignore[missing-argument]
+            return ProductionConfig()
 
 
 def get_config_for_current_env() -> BaseConfig:
