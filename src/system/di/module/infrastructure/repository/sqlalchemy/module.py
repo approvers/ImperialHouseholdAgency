@@ -1,8 +1,8 @@
-from injector import Module, Binder, singleton, provider
+from injector import Binder, Module, provider, singleton
 from sqlalchemy.ext.asyncio import (
-    async_sessionmaker,
-    AsyncSession,
     AsyncEngine,
+    AsyncSession,
+    async_sessionmaker,
     create_async_engine,
 )
 

@@ -1,4 +1,4 @@
-from sqlalchemy import String, TypeDecorator, Dialect
+from sqlalchemy import Dialect, String, TypeDecorator
 from ulid import ULID
 
 

@@ -4,10 +4,10 @@ from typing import TYPE_CHECKING, Generic, TypeVar
 from injector import Module
 
 if TYPE_CHECKING:  # pragma: no cover
-    from typing import Union, Iterable
     from abc import ABC
+    from collections.abc import Iterable
 
-    from injector import Scope, ScopeDecorator, Binder
+    from injector import Binder, Scope, ScopeDecorator
 
 
 InterfaceT = TypeVar("InterfaceT", bound="ABC")
@@ -17,7 +17,7 @@ InterfaceT = TypeVar("InterfaceT", bound="ABC")
 class BindEntry(Generic[InterfaceT]):
     interface: type[InterfaceT]
     to: type[InterfaceT] | InterfaceT
-    scope: "Union[None, type['Scope'], 'ScopeDecorator']" = None
+    scope: "None | type['Scope'] | 'ScopeDecorator'" = None
 
 
 class ModuleBase(Module):

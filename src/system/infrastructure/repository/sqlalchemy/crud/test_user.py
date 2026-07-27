@@ -6,17 +6,17 @@ import pytest
 from ulid import ULID
 
 from src.system.domain.interface.repository.common.response import (
-    RepositoryResultStatusEnum,
-    RepositoryResponseStatusEnum,
     RepositoryFailedResponseEnum,
+    RepositoryResponseStatusEnum,
+    RepositoryResultStatusEnum,
 )
 from src.system.domain.model.user import User
 from src.system.domain.value.user import (
-    UserRecordID,
     UserCreatedAt,
-    UserUpdatedAt,
-    UserMessengerRecordID,
     UserID,
+    UserMessengerRecordID,
+    UserRecordID,
+    UserUpdatedAt,
 )
 from src.system.infrastructure.repository.sqlalchemy.crud.user import SAUserRepository
 from src.system.util.id import generate_ulid

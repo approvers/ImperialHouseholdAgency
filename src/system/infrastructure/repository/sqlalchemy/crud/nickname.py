@@ -1,16 +1,16 @@
-from typing import Iterable
+from collections.abc import Iterable
 
 import logfire
 from injector import inject
 from sqlalchemy import select
-from sqlalchemy.ext.asyncio import async_sessionmaker, AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from src.system.domain.interface.repository.common.option import SortOrder
 from src.system.domain.interface.repository.common.response import (
-    RepositoryResponse,
-    RepositoryResultStatusEnum,
-    RepositoryResponseStatusEnum,
     RepositoryFailedResponseEnum,
+    RepositoryResponse,
+    RepositoryResponseStatusEnum,
+    RepositoryResultStatusEnum,
 )
 from src.system.domain.interface.repository.nickname import NicknameChangelogRepository
 from src.system.domain.model.nickname import NicknameChangelog
@@ -56,7 +56,7 @@ class SANicknameChangelogRepository(NicknameChangelogRepository):
                 is_success=RepositoryResultStatusEnum.ERROR,
                 status=RepositoryResponseStatusEnum.FAILED,
                 reason=RepositoryFailedResponseEnum.UNKNOWN,
-                message=f"Failed to create nickname changelog: {str(e)}",
+                message=f"Failed to create nickname changelog: {e!s}",
             )
 
     @logfire.instrument(
@@ -102,5 +102,5 @@ class SANicknameChangelogRepository(NicknameChangelogRepository):
                 is_success=RepositoryResultStatusEnum.ERROR,
                 status=RepositoryResponseStatusEnum.FAILED,
                 reason=RepositoryFailedResponseEnum.UNKNOWN,
-                message=f"Failed to retrieve nickname changelogs by user_record_id: {str(e)}",
+                message=f"Failed to retrieve nickname changelogs by user_record_id: {e!s}",
             )

@@ -3,7 +3,7 @@ from abc import abstractmethod
 from src.system.domain.interface.repository.common.base import RepositoryBase
 from src.system.domain.interface.repository.common.response import RepositoryResponse
 from src.system.domain.model.user import User
-from src.system.domain.value.user import UserRecordID, UserID, UserMessengerRecordID
+from src.system.domain.value.user import UserID, UserMessengerRecordID, UserRecordID
 
 
 class UserRepository(RepositoryBase):

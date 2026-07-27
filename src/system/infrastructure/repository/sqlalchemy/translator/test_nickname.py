@@ -8,11 +8,11 @@ from src.system.domain.model.nickname import (
     NicknameChangelog as DomainNicknameChangelog,
 )
 from src.system.domain.value.nickname import (
-    NicknameChangelogRecordID,
-    NicknameChangelogCreatedAt,
-    NicknameChangelogUserRecordID,
-    NicknameChangelogBefore,
     NicknameChangelogAfter,
+    NicknameChangelogBefore,
+    NicknameChangelogCreatedAt,
+    NicknameChangelogRecordID,
+    NicknameChangelogUserRecordID,
 )
 from src.system.infrastructure.repository.sqlalchemy.model.all import load_all_sa_models
 from src.system.infrastructure.repository.sqlalchemy.model.nickname import (

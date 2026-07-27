@@ -6,11 +6,11 @@ from ulid import ULID
 
 from src.system.domain.model.user import User as DomainUser
 from src.system.domain.value.user import (
-    UserRecordID,
     UserCreatedAt,
-    UserUpdatedAt,
-    UserMessengerRecordID,
     UserID,
+    UserMessengerRecordID,
+    UserRecordID,
+    UserUpdatedAt,
 )
 from src.system.infrastructure.repository.sqlalchemy.model.all import load_all_sa_models
 from src.system.infrastructure.repository.sqlalchemy.model.user import User as SAUser

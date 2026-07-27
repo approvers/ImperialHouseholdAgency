@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import Iterable
+from collections.abc import Iterable
 
 from src.system.domain.interface.repository.common.base import RepositoryBase
 from src.system.domain.interface.repository.common.response import RepositoryResponse

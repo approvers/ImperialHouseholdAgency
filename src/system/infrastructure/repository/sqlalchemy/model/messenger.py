@@ -5,8 +5,8 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.system.infrastructure.repository.sqlalchemy.model.base import (
     Base,
-    ULIDMixin,
     CreatedAtMixin,
+    ULIDMixin,
     UpdatedAtMixin,
 )
 

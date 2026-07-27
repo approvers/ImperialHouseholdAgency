@@ -6,10 +6,10 @@ from ulid import ULID
 
 from src.system.domain.model.messenger import Messenger as DomainMessenger
 from src.system.domain.value.messenger import (
-    MessengerRecordID,
     MessengerCreatedAt,
-    MessengerUpdatedAt,
     MessengerName,
+    MessengerRecordID,
+    MessengerUpdatedAt,
 )
 from src.system.infrastructure.repository.sqlalchemy.model.all import load_all_sa_models
 from src.system.infrastructure.repository.sqlalchemy.model.messenger import (

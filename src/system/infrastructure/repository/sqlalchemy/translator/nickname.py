@@ -15,11 +15,11 @@ class SANicknameChangelogTranslator(
     @staticmethod
     def to_domain(db_record: SANicknameChangelog) -> DomainNicknameChangelog:
         from src.system.domain.value.nickname import (
-            NicknameChangelogRecordID,
-            NicknameChangelogCreatedAt,
-            NicknameChangelogUserRecordID,
-            NicknameChangelogBefore,
             NicknameChangelogAfter,
+            NicknameChangelogBefore,
+            NicknameChangelogCreatedAt,
+            NicknameChangelogRecordID,
+            NicknameChangelogUserRecordID,
         )
 
         result = DomainNicknameChangelog(

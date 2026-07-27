@@ -7,17 +7,17 @@ from ulid import ULID
 
 from src.system.domain.interface.repository.common.option import SortOrder
 from src.system.domain.interface.repository.common.response import (
-    RepositoryResultStatusEnum,
-    RepositoryResponseStatusEnum,
     RepositoryFailedResponseEnum,
+    RepositoryResponseStatusEnum,
+    RepositoryResultStatusEnum,
 )
 from src.system.domain.model.nickname import NicknameChangelog
 from src.system.domain.value.nickname import (
-    NicknameChangelogRecordID,
-    NicknameChangelogCreatedAt,
-    NicknameChangelogUserRecordID,
-    NicknameChangelogBefore,
     NicknameChangelogAfter,
+    NicknameChangelogBefore,
+    NicknameChangelogCreatedAt,
+    NicknameChangelogRecordID,
+    NicknameChangelogUserRecordID,
 )
 from src.system.infrastructure.repository.sqlalchemy.crud.nickname import (
     SANicknameChangelogRepository,

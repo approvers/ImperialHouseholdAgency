@@ -6,8 +6,8 @@ from ulid import ULID
 
 from src.system.infrastructure.repository.sqlalchemy.model.base import (
     Base,
-    ULIDMixin,
     CreatedAtMixin,
+    ULIDMixin,
     UpdatedAtMixin,
 )
 from src.system.infrastructure.repository.sqlalchemy.type.ulid import ULIDColumn

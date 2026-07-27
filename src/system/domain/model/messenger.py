@@ -1,9 +1,9 @@
 from src.system.domain.model.base import DomainModelBase
 from src.system.domain.value.messenger import (
-    MessengerRecordID,
     MessengerCreatedAt,
-    MessengerUpdatedAt,
     MessengerName,
+    MessengerRecordID,
+    MessengerUpdatedAt,
 )
 
 

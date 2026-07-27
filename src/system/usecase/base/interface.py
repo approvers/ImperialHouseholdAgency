@@ -17,4 +17,4 @@ class UsecaseIf[RequestT: UsecaseRequest, ResponseT: UsecaseResponse](Interface)
         Returns:
             The use case response.
         """
-        pass  # pragma: no cover
+        # pragma: no cover

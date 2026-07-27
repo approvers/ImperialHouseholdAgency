@@ -10,15 +10,15 @@ from src.system.domain.interface.repository.user import UserRepository
 from src.system.domain.model.nickname import NicknameChangelog
 from src.system.domain.model.user import User
 from src.system.domain.value.nickname import (
-    NicknameChangelogRecordID,
     NicknameChangelogCreatedAt,
+    NicknameChangelogRecordID,
     NicknameChangelogUserRecordID,
 )
 from src.system.domain.value.user import (
-    UserRecordID,
     UserCreatedAt,
-    UserUpdatedAt,
     UserMessengerRecordID,
+    UserRecordID,
+    UserUpdatedAt,
 )
 from src.system.usecase.nickname.dto import (
     RecordNicknameChangeRequest,

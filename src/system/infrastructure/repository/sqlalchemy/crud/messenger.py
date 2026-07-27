@@ -1,15 +1,15 @@
-from typing import Iterable
+from collections.abc import Iterable
 
 import logfire
 from injector import inject
 from sqlalchemy import select
-from sqlalchemy.ext.asyncio import async_sessionmaker, AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from src.system.domain.interface.repository.common.response import (
-    RepositoryResponse,
-    RepositoryResultStatusEnum,
-    RepositoryResponseStatusEnum,
     RepositoryFailedResponseEnum,
+    RepositoryResponse,
+    RepositoryResponseStatusEnum,
+    RepositoryResultStatusEnum,
 )
 from src.system.domain.interface.repository.messenger import MessengerRepository
 from src.system.domain.model.messenger import Messenger
@@ -51,7 +51,7 @@ class SAMessengerRepository(MessengerRepository):
                 is_success=RepositoryResultStatusEnum.ERROR,
                 status=RepositoryResponseStatusEnum.FAILED,
                 reason=RepositoryFailedResponseEnum.UNKNOWN,
-                message=f"Failed to create messenger: {str(e)}",
+                message=f"Failed to create messenger: {e!s}",
             )
 
     @logfire.instrument(span_name="SAMessengerRepository.get_all()")
@@ -79,7 +79,7 @@ class SAMessengerRepository(MessengerRepository):
                 is_success=RepositoryResultStatusEnum.ERROR,
                 status=RepositoryResponseStatusEnum.FAILED,
                 reason=RepositoryFailedResponseEnum.UNKNOWN,
-                message=f"Failed to retrieve messengers: {str(e)}",
+                message=f"Failed to retrieve messengers: {e!s}",
             )
 
     @logfire.instrument(span_name="SAMessengerRepository.get_by_name()")
@@ -113,5 +113,5 @@ class SAMessengerRepository(MessengerRepository):
                 is_success=RepositoryResultStatusEnum.ERROR,
                 status=RepositoryResponseStatusEnum.FAILED,
                 reason=RepositoryFailedResponseEnum.UNKNOWN,
-                message=f"Failed to get messenger by name: {str(e)}",
+                message=f"Failed to get messenger by name: {e!s}",
             )

@@ -9,11 +9,11 @@ class SAUserTranslator(BaseSADomainTranslator[DomainUser, SAUser]):
     @staticmethod
     def to_domain(db_record: SAUser) -> DomainUser:
         from src.system.domain.value.user import (
-            UserRecordID,
             UserCreatedAt,
-            UserUpdatedAt,
-            UserMessengerRecordID,
             UserID,
+            UserMessengerRecordID,
+            UserRecordID,
+            UserUpdatedAt,
         )
 
         result = DomainUser(

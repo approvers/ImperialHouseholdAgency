@@ -1,17 +1,17 @@
 import logfire
 from injector import inject
 from sqlalchemy import select
-from sqlalchemy.ext.asyncio import async_sessionmaker, AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from src.system.domain.interface.repository.common.response import (
-    RepositoryResponse,
-    RepositoryResultStatusEnum,
-    RepositoryResponseStatusEnum,
     RepositoryFailedResponseEnum,
+    RepositoryResponse,
+    RepositoryResponseStatusEnum,
+    RepositoryResultStatusEnum,
 )
 from src.system.domain.interface.repository.user import UserRepository
 from src.system.domain.model.user import User
-from src.system.domain.value.user import UserRecordID, UserID, UserMessengerRecordID
+from src.system.domain.value.user import UserID, UserMessengerRecordID, UserRecordID
 from src.system.infrastructure.repository.sqlalchemy.model.user import User as SAUser
 from src.system.infrastructure.repository.sqlalchemy.translator.user import (
     SAUserTranslator,
@@ -47,7 +47,7 @@ class SAUserRepository(UserRepository):
                 is_success=RepositoryResultStatusEnum.ERROR,
                 status=RepositoryResponseStatusEnum.FAILED,
                 reason=RepositoryFailedResponseEnum.UNKNOWN,
-                message=f"Failed to create user: {str(e)}",
+                message=f"Failed to create user: {e!s}",
             )
 
     @logfire.instrument(span_name="SAUserRepository.get()")
@@ -79,7 +79,7 @@ class SAUserRepository(UserRepository):
                 is_success=RepositoryResultStatusEnum.ERROR,
                 status=RepositoryResponseStatusEnum.FAILED,
                 reason=RepositoryFailedResponseEnum.UNKNOWN,
-                message=f"Failed to get user: {str(e)}",
+                message=f"Failed to get user: {e!s}",
             )
 
     @logfire.instrument(span_name="SAUserRepository.get_by_user_id_and_messenger()")
@@ -116,7 +116,7 @@ class SAUserRepository(UserRepository):
                 is_success=RepositoryResultStatusEnum.ERROR,
                 status=RepositoryResponseStatusEnum.FAILED,
                 reason=RepositoryFailedResponseEnum.UNKNOWN,
-                message=f"Failed to get user by user_id and messenger: {str(e)}",
+                message=f"Failed to get user by user_id and messenger: {e!s}",
             )
 
     @logfire.instrument(span_name="SAUserRepository.get_or_create()")
