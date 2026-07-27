@@ -1,8 +1,9 @@
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest
+from sqlalchemy.exc import SQLAlchemyError
 from ulid import ULID
 
 from src.system.domain.interface.repository.common.response import (
@@ -34,7 +35,7 @@ def test_messenger_record_id() -> ULID:
 
 @pytest.fixture
 def test_datetime() -> datetime:
-    return datetime(2023, 1, 1, 12, 0, 0)
+    return datetime(2023, 1, 1, 12, 0, 0, tzinfo=UTC)
 
 
 @pytest.fixture
@@ -104,7 +105,7 @@ class TestSAUserRepositoryCreate:
     @pytest.mark.asyncio
     async def test_create_failure(self, domain_user: User) -> None:
         mock_session = AsyncMock()
-        mock_session.add = MagicMock(side_effect=Exception("Database error"))
+        mock_session.add = MagicMock(side_effect=SQLAlchemyError("Database error"))
 
         mock_session_factory = MagicMock()
         mock_session_factory.return_value.__aenter__ = AsyncMock(
@@ -170,7 +171,7 @@ class TestSAUserRepositoryGet:
     @pytest.mark.asyncio
     async def test_get_failure(self, test_ulid: ULID) -> None:
         mock_session = AsyncMock()
-        mock_session.execute = AsyncMock(side_effect=Exception("Database error"))
+        mock_session.execute = AsyncMock(side_effect=SQLAlchemyError("Database error"))
 
         mock_session_factory = MagicMock()
         mock_session_factory.return_value.__aenter__ = AsyncMock(
@@ -249,7 +250,7 @@ class TestSAUserRepositoryGetByUserIdAndMessenger:
         self, test_messenger_record_id: ULID
     ) -> None:
         mock_session = AsyncMock()
-        mock_session.execute = AsyncMock(side_effect=Exception("Database error"))
+        mock_session.execute = AsyncMock(side_effect=SQLAlchemyError("Database error"))
 
         mock_session_factory = MagicMock()
         mock_session_factory.return_value.__aenter__ = AsyncMock(
@@ -342,7 +343,7 @@ class TestSAUserRepositoryGetOrCreate:
         self, domain_user: User
     ) -> None:
         mock_session = AsyncMock()
-        mock_session.execute = AsyncMock(side_effect=Exception("Database error"))
+        mock_session.execute = AsyncMock(side_effect=SQLAlchemyError("Database error"))
 
         mock_session_factory = MagicMock()
         mock_session_factory.return_value.__aenter__ = AsyncMock(

@@ -1,6 +1,6 @@
 import logfire
 from injector import inject
-from sqlalchemy import select
+from sqlalchemy import SQLAlchemyError, select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from src.system.domain.interface.repository.common.response import (
@@ -41,7 +41,7 @@ class SAUserRepository(UserRepository):
                     status=RepositoryResponseStatusEnum.CREATED,
                 )
 
-        except Exception as e:
+        except SQLAlchemyError as e:
             return RepositoryResponse[User | None](
                 response=user,
                 is_success=RepositoryResultStatusEnum.ERROR,
@@ -73,7 +73,7 @@ class SAUserRepository(UserRepository):
                     status=RepositoryResponseStatusEnum.READ,
                 )
 
-        except Exception as e:
+        except SQLAlchemyError as e:
             return RepositoryResponse[User | None](
                 response=None,
                 is_success=RepositoryResultStatusEnum.ERROR,
@@ -110,7 +110,7 @@ class SAUserRepository(UserRepository):
                     status=RepositoryResponseStatusEnum.READ,
                 )
 
-        except Exception as e:
+        except SQLAlchemyError as e:
             return RepositoryResponse[User | None](
                 response=None,
                 is_success=RepositoryResultStatusEnum.ERROR,

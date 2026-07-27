@@ -2,7 +2,7 @@ from collections.abc import Iterable
 
 import logfire
 from injector import inject
-from sqlalchemy import select
+from sqlalchemy import SQLAlchemyError, select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from src.system.domain.interface.repository.common.option import SortOrder
@@ -50,7 +50,7 @@ class SANicknameChangelogRepository(NicknameChangelogRepository):
                     status=RepositoryResponseStatusEnum.CREATED,
                 )
 
-        except Exception as e:
+        except SQLAlchemyError as e:
             return RepositoryResponse[NicknameChangelog | None](
                 response=data,
                 is_success=RepositoryResultStatusEnum.ERROR,
@@ -96,7 +96,7 @@ class SANicknameChangelogRepository(NicknameChangelogRepository):
                     status=RepositoryResponseStatusEnum.READ,
                 )
 
-        except Exception as e:
+        except SQLAlchemyError as e:
             return RepositoryResponse[Iterable[NicknameChangelog]](
                 response=[],
                 is_success=RepositoryResultStatusEnum.ERROR,
